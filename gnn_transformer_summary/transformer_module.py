@@ -23,7 +23,7 @@ class TransformerModule(nn.Module):
         self.out_proj = nn.Sequential(
                 nn.Linear(self.transformer.config.hidden_size, self.transformer.config.hidden_size),
                 nn.ReLU(True),
-                nn.Linear(self.transformer.config.hidden_size, 1)
+                nn.Linear(self.transformer.config.hidden_size, 10)
             )
 
     def forward(self, embeddings: torch.Tensor) -> torch.Tensor:
@@ -39,12 +39,12 @@ class TransformerModule(nn.Module):
         # Ensure the input embeddings match the expected input dimension
         if embeddings.size(-1) != self.input_dim:
             raise ValueError(f"Expected input dimension {self.input_dim}, but got {embeddings.size(-1)}")
-        
         # Pass the embeddings through the transformer model
         transformer_outputs = self.transformer(inputs_embeds=embeddings)
         device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
         # Extract the last hidden state as the output
         output = transformer_outputs.last_hidden_state
-        compressed_tensor = output.mean(dim=0)
-        output_embeddings = self.out_proj(compressed_tensor)
-        return output_embeddings
+        # compressed_tensor = output.mean(dim=0)
+        output_embeddings = output
+        # output_embeddings = self.out_proj(compressed_tensor)
+        return embeddings,output_embeddings
