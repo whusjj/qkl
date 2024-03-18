@@ -3,6 +3,7 @@ try:
     import torch
     import pandas as pd
     import numpy as np
+    import pdb
 except ImportError as e:
     print(f"ImportError: {e}")
     raise e
@@ -56,12 +57,12 @@ class DataPreprocessor:
         - GraphData: An instance of the GraphData class containing the loaded data, or None if an error occurs.
         """
         for i,data in enumerate(self.dataset):
-            self.dataset[i]['Edge indices'] = torch.tensor(data['Edge indices'], dtype=torch.long)
-            self.dataset[i]['Edge attributes'] = torch.tensor(data['Edge attributes'], dtype=torch.float)
-            self.dataset[i]['Node labels'] = torch.tensor(data['Node labels'], dtype=torch.float)
             self.dataset[i]['node feature'] = torch.tensor(data['node feature'], dtype=torch.float)
+            self.dataset[i]['Edge indices'] = torch.tensor(data['Edge indices'], dtype=torch.long) 
+            # pdb.set_trace()
+            self.dataset[i]['Edge attributes'] = torch.tensor(data['Edge attributes'], dtype=torch.float).unsqueeze(-1).expand(-1, self.dataset[i]['node feature'].shape[1])
+            self.dataset[i]['Node labels'] = torch.tensor(data['Node labels'], dtype=torch.float).repeat(10,1)
             data_list = [0]*(self.dataset[i]['node feature']).shape[0]
-            self.dataset[i]['Edge attributes'] = self.dataset[i]['Edge attributes'].repeat(self.dataset[i]['node feature'].shape[1], 1)
             for i in range(len(data['Edge indices'][0])):
                 data_list[data['Edge indices'][0][i]] += 1
                 data_list[data['Edge indices'][1][i]] += 1
