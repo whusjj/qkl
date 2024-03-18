@@ -8,15 +8,15 @@ import torch_geometric.nn as gnn
 import pdb
 def get_simple_gnn_layer(input_dim,output_dim,edge_dim, deg):
     
-    aggregators = ['mean', 'sum', 'max']
-    scalers = ['identity']
-    torch.save(deg,f'/root/autodl-tmp/SAT-main/datasets/result/deg.pt')
-    print(edge_dim)
-    layer = gnn.PNAConv(input_dim, output_dim,
-                           aggregators=aggregators, scalers=scalers,
-                           deg=deg, towers=4, pre_layers=1, post_layers=1,
-                           divide_input=True, edge_dim=edge_dim)
-    return layer
+    # torch.save(deg,f'/root/autodl-tmp/SAT-main/datasets/result/deg.pt')
+    # print(edge_dim)
+    mlp = mlp = nn.Sequential(
+            nn.Linear(input_dim, input_dim),
+            nn.ReLU(True),
+            nn.Linear(input_dim, input_dim),
+        )
+    return gnn.GINEConv(mlp, train_eps=True)
+    
 
 class GNNModule(torch.nn.Module):
     def __init__(self, input_dim: int = 32, output_dim: int = 32, embed_dim: int = 32, num_layers = 5,edge_dim = None,deg_path = None):
@@ -61,10 +61,9 @@ class GNNModule(torch.nn.Module):
         - torch.Tensor: The output embedding tensor from the GNN.
         """
         for gcn_layer in self.gcn:
-            x, edge_index,edge_attr = graph['node feature'], graph['Edge indices'][0],graph['Edge attributes']
+            x, edge_index,edge_attr = graph['node feature'], graph['Edge indices'],graph['Edge attributes']
             # pdb.set_trace()
-            x = self.relu(gcn_layer(x, edge_index, edge_attr=edge_attr[0].T))
-            
+            x = self.relu(gcn_layer(x, edge_index, edge_attr=edge_attr)) 
             if self.training:
                 x = torch.dropout(x, p=0.1, train=True)
         
