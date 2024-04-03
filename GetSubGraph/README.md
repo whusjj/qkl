@@ -1,0 +1,4 @@
+- 运行main.py文件就能得到诺干个可以使用subgraph
+- 搜集数据的时候，如果是对于九月份的正常数据，设置为0，如果是疑似，设置为1
+- 边数据如果是calltrace就会是calltrace令牌，如果是transaction就会是除去hash数据和topic的结果
+- trx_keep.txt用于储存trace的结果。
