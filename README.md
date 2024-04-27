@@ -4,5 +4,5 @@ gnn是预训练模型目前已经加入tokenizer，
 
 SAT和tokengt是复现的源码，
 
-预训练最后的进展在pertraining1.4分支，gnn_transformer是因果语言模型，generate是生成式语言模型，apex是generate的配套库，两个都解压以后apex直接放在里面
+预训练最后的进展在pertraining1.4分支，gnn_transformer是因果语言模型，generate是掩码语言模型，apex是generate的配套库，两个都解压以后apex直接放在里面
 
