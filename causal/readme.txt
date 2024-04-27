@@ -1,4 +1,4 @@
-apex解压后放进mask文件夹下，数据集文件夹命名为result放入mask文件夹下
+apex解压后放进causal文件夹下，数据集文件夹命名为result放入causal文件夹下
 启动：python main.py
 
 absl-py                    2.1.0
