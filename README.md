@@ -8,5 +8,6 @@ SAT和tokengt是复现的源码，
 gnn_transformer是因果语言模型，
 generate是掩码语言模型，apex是generate的配套库
 都解压后apex放在generate的文件夹下
+
 数据集文件夹命名为result，也放在generate下面
 
