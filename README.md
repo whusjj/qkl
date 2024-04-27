@@ -5,6 +5,6 @@ gnn是预训练模型目前已经加入tokenizer，
 SAT和tokengt是复现的源码，
 
 预训练最后的进展在pertraining1.4分支，
-1.2是因果语言模型，mask是掩码语言模型
+casual是因果语言模型，mask是掩码语言模型
 
 
