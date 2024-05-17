@@ -1,7 +1,8 @@
 ## transformer_module.py
 import torch
 from torch import nn
-from transformers import GPT2Model, GPT2Config
+# from transformers import GPT2Model, GPT2Config
+from transformers import RobertaConfig, RobertaModel
 import torch_geometric.nn as gnn
 import pdb
 class TransformerModule(nn.Module):
@@ -18,9 +19,9 @@ class TransformerModule(nn.Module):
         self.output_dim = output_dim
         self.pooling = gnn.global_mean_pool
         # Initialize GPT-2 configuration with the specified output dimension
-        self.config = GPT2Config(n_head = 8,n_embd=output_dim,hidden_size = input_dim)
+        self.config = RobertaConfig(n_head = 8,n_embd=output_dim,hidden_size = input_dim)
         state_dict = torch.load('/root/autodl-tmp/pre_train/generate/transformer_model.pth')
-        self.transformer = GPT2Model(self.config)
+        self.transformer = RobertaModel(self.config)
         # print(self.transformer.config)
         if pre_train == 0 :
             self.transformer.load_state_dict(state_dict, strict=False)
