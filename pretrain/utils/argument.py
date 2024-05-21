@@ -24,6 +24,7 @@ class TrainingArguments:
     sequence = 128
     epoch = 5
     pre_train = 1
+    is_tighted_lm_head = True
     
 @dataclass
 class ModelArguments:
@@ -47,5 +48,13 @@ class TokenizerArguments:
     token_vocab = "esperberto-vocab.json"
     token_merge = "esperberto-merges.txt"
     vocab_size = None
+    #"<s>":0,"<pad>":1,"</s>":2,"<unk>":3,"<mask>":4
+    S_TOKEN_ID = 0
+    PAD_TOKEN_ID = 1
+    E_TOKEN_ID = 2
+    UNK_TOKEN_ID = 3
+    MASK_TOKEN_ID = 4
+    
+
     
     

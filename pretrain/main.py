@@ -93,7 +93,7 @@ if __name__ == "__main__":
     main = Main(training_args, data_args, tokenizaer_args, model_args)
     model = main.train_model()
     # 这边还要model save
-    torch.save(model.embedding_model.state_dict(), model_args.emb_model_path)
+    torch.save(model.embedding_layer.state_dict(), model_args.emb_model_path)
     torch.save(model.transformer_module.transformer.state_dict(), model_args.transformer_model_path )
     torch.save(model.gnn_module.gcn.state_dict(), model_args.gnn_model_path)
     if model is not None:

@@ -5,34 +5,53 @@ from LSTMEmbedding import LSTMEmbedding
 import random
 import json
 import torch
+import torch.nn as nn
+from utils.argument import TokenizerArguments
+from transformers import GPT2PreTrainedModel
 
 
-
-class TrxGNNGPT(torch.nn.Module):
-    def __init__(self, gnn_module: GNNModule, transformer_module: TransformerModule,hidden_dim = 64,mlm_probability = 0.15,device = 'cpu',pre_train=0):
+class TrxGNNGPT(GPT2PreTrainedModel):
+    def __init__(self, gnn_module: GNNModule, transformer_module: TransformerModule, tokenizaer_args:TokenizerArguments, hidden_dim = 64,mlm_probability = 0.15, device = 'cpu', is_tighted_lm_head = True):
         super(TrxGNNGPT, self).__init__()
         self.gnn_module = gnn_module
         self.transformer_module = transformer_module
         # self.esperanto_dataset = EsperantoDataset()
-        self.vocab_size = get_vocab_size()
-        self.text_embedding_model = LSTMEmbedding(self.vocab_size)
-        self.pad_id = 1
-        if pre_train == 0:
-            embedding_model = torch.load("/root/autodl-tmp/ETHGPT-main/large-scale-regression/tokengt/pretrain/nn_embedding_model.pth")
-            self.embedding_model = torch.nn.Embedding(self.vocab_size,hidden_dim,padding_idx=self.pad_id).from_pretrained(embedding_model['weight'])
-        else:
-            self.embedding_model = torch.nn.Embedding(self.vocab_size,hidden_dim,padding_idx=self.pad_id)
+        self.vocab_size = tokenizaer_args.vocab_size
+        # self.text_embedding_model = LSTMEmbedding(self.vocab_size)
+        self.pad_id = tokenizaer_args.PAD_TOKEN_ID
+        self.embedding_layer = torch.nn.Embedding(self.vocab_size,hidden_dim, padding_idx=self.pad_id)
         self.mlm_probability = mlm_probability
         self.device = device
-        self.len = 128
-        
-        self.special_token_id = [0,1,2,3]# 特殊令牌id
-        self.mask_ids = 4
-        self.hidden_dim = hidden_dim
-        self.lm_head = torch.nn.Linear(hidden_dim,self.vocab_size)
-        # self.tokenizer = AutoTokenizer.from_pretrained(text_model_name)
-        # self.text_embedding_model = AutoModel.from_pretrained(text_model_name)
 
+        self.special_token_id = [tokenizaer_args.S_TOKEN_ID, tokenizaer_args.PAD_TOKEN_ID, tokenizaer_args.E_TOKEN_ID, tokenizaer_args.UNK_TOKEN_ID] #[0,1,2,3]# 特殊令牌id
+        self.mask_ids = tokenizaer_args.MASK_TOKEN_ID
+        self.hidden_dim = hidden_dim
+        
+        
+        if is_tighted_lm_head:
+            # Tie weights
+            self.lm_head = torch.nn.Linear(hidden_dim, self.vocab_size, bias=False)
+            self._tie_or_clone_weights(self.lm_head, self.embedding_layer)
+        else:
+            self.lm_head = torch.nn.Linear(hidden_dim, self.vocab_size)
+   
+    def _tie_or_clone_weights(self, output_embeddings, input_embeddings):
+        """Tie or clone module weights depending on whether TorchScript is used"""
+        if self.torchscript:
+            output_embeddings.weight = nn.Parameter(input_embeddings.weight.clone())
+        else:
+            output_embeddings.weight = input_embeddings.weight
+
+        if hasattr(output_embeddings, "bias") and output_embeddings.bias is not None:
+            output_embeddings.bias.data = nn.functional.pad(
+                output_embeddings.bias.data,
+                (0, output_embeddings.weight.shape[0] - output_embeddings.bias.shape[0]),
+                "constant",
+                0
+            )
+        if hasattr(output_embeddings, "out_features") and hasattr(input_embeddings, "num_embeddings"):
+            output_embeddings.out_features = input_embeddings.num_embeddings
+            
     def forward(self, graph_data):
         # tmp = graph_data
         tmp = graph_data.clone()
@@ -56,7 +75,7 @@ class TrxGNNGPT(torch.nn.Module):
             batch = batch.to(device)
             # print(type(batch))
             # print(batch)
-            output = self.embedding_model(batch)
+            output = self.embedding_layer(batch)
             embeddings.append(output)
         embeddings = torch.cat(embeddings, dim=0)
         tmp["x"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
@@ -72,7 +91,7 @@ class TrxGNNGPT(torch.nn.Module):
             batch = batch.to(device)
             # print(batch)
             # print(type(batch))
-            output = self.embedding_model(batch)
+            output = self.embedding_layer(batch)
             embeddings.append(output)
         embeddings = torch.cat(embeddings, dim=0)
         tmp["edge_attr"] = embeddings.reshape(embeddings.shape[0],-1).to(device)

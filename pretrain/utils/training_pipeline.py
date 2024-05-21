@@ -54,6 +54,7 @@ class TrainingPipeline:
         self.hidden_dim = train_args.hidden_dim
         self.mlm_probability = train_args.mlm_probability
         self.vocab_size = vocab_size
+        self.is_tighted_lm_head = train_args.is_tighted_lm_head
 
     def collate_fn(self,batch_size, data):
         if data == None:
@@ -87,7 +88,7 @@ class TrainingPipeline:
         # random.shuffle(data)
         # accelerator = Accelerator()
         data =  self.collate_fn(self.batch_size,dataset)
-        model = self.initialize_model(gnn_module,transformer_module,self.hidden_dim,self.mlm_probability,self.device)
+        model = self.initialize_model(gnn_module, transformer_module, self.hidden_dim, self.mlm_probability, self.device, self.is_tighted_lm_head)
         model.to(self.device)
         # data = DataLoader(dataset,shuffle=True,batch_size=8,collate_fn = )
         optimizer = torch.optim.Adam(model.parameters(), lr=self.lr)
@@ -148,8 +149,8 @@ class TrainingPipeline:
             print(f"Epoch {epoch+1}/{self.epochs}, total Loss: {total_loss}")
         return model
 
-    def initialize_model(self,gnn_module,transformer_module,hidden_dim,mlm_probability,device) -> TrxGNNGPT:
-        model = TrxGNNGPT(gnn_module, transformer_module,hidden_dim,mlm_probability,device)
+    def initialize_model(self, gnn_module, transformer_module, hidden_dim, mlm_probability, device, is_tighted_lm_head) -> TrxGNNGPT:
+        model = TrxGNNGPT(gnn_module, transformer_module,self.vocab_size, hidden_dim, mlm_probability, device, is_tighted_lm_head)
         return model
 
 # Note: It's assumed that the dataset class provides a method `get_labels(batch)` to access the target labels.
