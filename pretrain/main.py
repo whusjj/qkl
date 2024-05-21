@@ -80,6 +80,8 @@ if __name__ == "__main__":
     # token_merge = "esperberto-merges.txt"
     parser = HfArgumentParser((TrainingArguments, DataArguments, TokenizerArguments,ModelArguments))
     training_args, data_args, tokenizaer_args, model_args = parser.parse_args_into_dataclasses()
+    
+    
     training_args.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     
     tokenizaer_args.token_vocab = "{}/esperberto-vocab.json".format(tokenizaer_args.tokenizer_dir)
@@ -90,6 +92,9 @@ if __name__ == "__main__":
     model_args.transformer_model_path = "{}/transformer_model.pth".format(model_args.output_dir)
     model_args.emb_model_path = "{}/nn_embedding_model.pth".format(model_args.output_dir)
     
+    if os.path.exists(model_args.output_dir):
+        os.makedirs(model_args.output_dir, exist_ok=True)
+        
     main = Main(training_args, data_args, tokenizaer_args, model_args)
     model = main.train_model()
     # 这边还要model save
