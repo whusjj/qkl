@@ -35,9 +35,9 @@ CUDA_LAUNCH_BLOCKING=1 python main.py \
     --emb_model_path 'nn_embedding_model.pth' \
     --raw_data_folder './data/raw_data' \
     --pickle_path './data/preprocessed/data.pickle' \
-    --train_file './data/split/train.pickle' \
-    --eval_file './data/split/eval.pickle' \
-    --test_file './data/split/test.pickle' \
     --tokenizer_dir 'tokenizer' \
     --token_vocab 'esperberto-vocab.json' \
     --token_merge 'esperberto-merges.txt'
+    # --train_file './data/split/train.pickle' \
+    # --eval_file './data/split/eval.pickle' \
+    # --test_file './data/split/test.pickle' \

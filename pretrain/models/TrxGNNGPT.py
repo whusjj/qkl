@@ -26,9 +26,11 @@ class TrxGNNGPT(nn.Module):
         self.special_token_id = [tokenizaer_args.S_TOKEN_ID, tokenizaer_args.PAD_TOKEN_ID, tokenizaer_args.E_TOKEN_ID, tokenizaer_args.UNK_TOKEN_ID] #[0,1,2,3]# 特殊令牌id
         self.mask_id = tokenizaer_args.MASK_TOKEN_ID
         self.gnn_hidden_dim = gnn_hidden_dim
-        # self.liner_connection = None
-        # if self.transformer_module.gpt_hidden_dim != self.gnn_hidden_dim:
-        #     self.liner_connection = torch.nn.Linear(gnn_hidden_dim, self.transformer_module.gpt_hidden_dim)
+        self.liner_connection_1 = None
+        self.liner_connection_2 = None
+        if self.transformer_module.gpt_hidden_dim != self.gnn_hidden_dim:
+            self.liner_connection_1 = torch.nn.Linear(gnn_hidden_dim, self.transformer_module.gpt_hidden_dim)
+            self.liner_connection_2 = torch.nn.Linear(self.transformer_module.gpt_hidden_dim, gnn_hidden_dim)
         
         if is_tighted_lm_head:
             # Tie weights
@@ -105,10 +107,12 @@ class TrxGNNGPT(nn.Module):
             embeddings = edge_embedding
         embeddings = embeddings.reshape(labels.shape[0],-1, self.gnn_hidden_dim).to(device)
         # graph_data = tmp
-        # if self.liner_connection:
-        #     embeddings = self.liner_connection(embeddings)
+        if self.liner_connection_1:
+            embeddings = self.liner_connection_1(embeddings)
         text_summary = self.transformer_module(embeddings)
-        logits = self.lm_head(text_summary[1])
+        if self.liner_connection_2:
+            embeddings_proj = self.liner_connection_2(text_summary[1])
+        logits = self.lm_head(embeddings_proj)
         probs = torch.nn.functional.softmax(logits, dim=-1)
         #logger.info(f'Total memory: {torch.cuda.get_device_properties(self.device).total_memory} Available memory: {torch.cuda.get_device_properties(self.device).total_memory - torch.cuda.memory_allocated(self.device)}')
         return labels, probs
