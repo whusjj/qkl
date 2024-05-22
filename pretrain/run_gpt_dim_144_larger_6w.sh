@@ -10,9 +10,9 @@ gpt_num_head=12
 tokenizer_dir="tokenizer_larger"
 token_vocab="vocab.json"
 token_merge="merges.txt"
-raw_data_folder='./data/raw_data'
-pickle_path='./data/preprocessed/data_larger_tokenizaer.pickle'
-saved_model="saved_model_gpt_hidden_dim_${gpt_hidden_dim}_${gpt_num_head}_${tokenizer_dir}"
+raw_data_folder='./data/raw_data_6w'
+pickle_path='./data/preprocessed/data_larger_tokenizaer_6w.pickle'
+saved_model="saved_model_gpt_hidden_dim_${gpt_hidden_dim}_${gpt_num_head}_${tokenizer_dir}_6w"
 [ -d $saved_model ] || mkdir $saved_model
 
 # export TORCH_USE_CUDA_DSA=1

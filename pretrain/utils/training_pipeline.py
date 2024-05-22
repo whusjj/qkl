@@ -136,7 +136,7 @@ class TrainingPipeline:
                     output_flag=True
                     avg_loss=round((tr_loss - logging_loss) /(global_step- tr_nb),6)
                     if global_step % 100 == 0:
-                        logger.info(" steps: %s loss: %s", global_step, round(avg_loss,6))
+                        logger.info( f" steps: {global_step} loss: {round(avg_loss,6)}" )
                     if  self.logging_steps > 0 and global_step % self.logging_steps == 0:
                         logging_loss = tr_loss
                         tr_nb = global_step

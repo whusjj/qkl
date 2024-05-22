@@ -10,6 +10,8 @@ gpt_num_head=8
 tokenizer_dir="tokenizer_larger"
 token_vocab="vocab.json"
 token_merge="merges.txt"
+raw_data_folder='./data/raw_data'
+pickle_path='./data/preprocessed/data_larger_tokenizaer.pickle'
 saved_model="saved_model_gpt_hidden_dim_${gpt_hidden_dim}_${gpt_num_head}_${tokenizer_dir}"
 [ -d $saved_model ] || mkdir $saved_model
 
@@ -39,8 +41,8 @@ python main.py \
     --gnn_model_path 'gnn_model.pth' \
     --transformer_model_path 'transformer_model.pth' \
     --emb_model_path 'nn_embedding_model.pth' \
-    --raw_data_folder './data/raw_data' \
-    --pickle_path './data/preprocessed/data.pickle' \
+    --raw_data_folder $raw_data_folder \
+    --pickle_path  $pickle_path \
     --tokenizer_dir $tokenizer_dir \
     --token_vocab $token_vocab \
     --token_merge $token_merge 2>&1 | tee  $saved_model/log.txt
