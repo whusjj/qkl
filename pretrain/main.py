@@ -102,7 +102,7 @@ if __name__ == "__main__":
     # token_merge = "esperberto-merges.txt"
     parser = HfArgumentParser((TrainingArguments, DataArguments, TokenizerArguments,ModelArguments))
     training_args, data_args, tokenizaer_args, model_args = parser.parse_args_into_dataclasses()
-    os.makedirs("logs", exist_ok=True)
+    #os.makedirs("logs", exist_ok=True)
     logger.add(f"{model_args.output_dir}/pretrain.log")
     #setup_logger()
     logger.info("Training arguments: {}", training_args)
