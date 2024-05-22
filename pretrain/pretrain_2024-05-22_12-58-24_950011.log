@@ -9,3 +9,5 @@
 2024-05-22 12:58:44.949 | INFO     | utils.training_pipeline:train:83 - gnn_module is on cuda:0
 2024-05-22 12:58:44.949 | INFO     | utils.training_pipeline:train:84 - transformer_module is on cuda:0
 2024-05-22 12:58:45.011 | INFO     | utils.training_pipeline:train:110 - epoch: 0
+2024-05-22 13:00:36.253 | INFO     | utils.training_pipeline:train:145 - Epoch 1/5, total Loss: 51.27995300292969
+2024-05-22 13:00:36.254 | INFO     | utils.training_pipeline:train:110 - epoch: 1

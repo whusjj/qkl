@@ -1,0 +1,13 @@
+2024-05-22 13:01:06.530 | INFO     | __main__:<module>:97 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=5, batch_size=32, fp16=True, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=144, gpt_num_head=12, mlm_probability=0.15, sequence=128, epoch=5, is_tighted_lm_head=True, masked_node=False, masked_edge=True, debug=True)
+2024-05-22 13:01:06.531 | INFO     | __main__:<module>:98 - Data arguments: DataArguments(raw_data_folder='./data/raw_data', pickle_path='./data/preprocessed/data.pickle', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-05-22 13:01:06.531 | INFO     | __main__:<module>:99 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='esperberto-vocab.json', token_merge='esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-05-22 13:01:06.531 | INFO     | __main__:<module>:100 - Model arguments: ModelArguments(output_dir='./saved_model', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth')
+2024-05-22 13:01:06.532 | INFO     | __main__:<module>:102 - Setting seeds for reproducibility Seed 42
+2024-05-22 13:01:07.768 | INFO     | __main__:<module>:112 - Device: cuda:0
+2024-05-22 13:01:07.771 | INFO     | utils.data_preprocessor:__init__:82 - Loading data from cache ./data/raw_cached_debug.pt
+2024-05-22 13:01:26.256 | INFO     | utils.training_pipeline:train:82 - model is on cuda:0
+2024-05-22 13:01:26.256 | INFO     | utils.training_pipeline:train:83 - gnn_module is on cuda:0
+2024-05-22 13:01:26.256 | INFO     | utils.training_pipeline:train:84 - transformer_module is on cuda:0
+2024-05-22 13:01:26.317 | INFO     | utils.training_pipeline:train:110 - epoch: 0
+2024-05-22 13:03:22.129 | INFO     | utils.training_pipeline:train:145 - Epoch 1/5, total Loss: 51.28008270263672
+2024-05-22 13:03:22.129 | INFO     | utils.training_pipeline:train:110 - epoch: 1
