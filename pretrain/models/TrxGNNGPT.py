@@ -112,6 +112,8 @@ class TrxGNNGPT(nn.Module):
         text_summary = self.transformer_module(embeddings)
         if self.liner_connection_2:
             embeddings_proj = self.liner_connection_2(text_summary[1])
+        else:
+            embeddings_proj = text_summary[1]
         logits = self.lm_head(embeddings_proj)
         probs = torch.nn.functional.softmax(logits, dim=-1)
         #logger.info(f'Total memory: {torch.cuda.get_device_properties(self.device).total_memory} Available memory: {torch.cuda.get_device_properties(self.device).total_memory - torch.cuda.memory_allocated(self.device)}')

@@ -64,7 +64,8 @@ class DataPreprocessor:
         if debug:
            cache_file =  f"{os.path.dirname(raw_data_folder)}/raw_cached_debug.pt" 
         else:
-           cache_file =  f"{os.path.dirname(raw_data_folder)}/raw_cached.pt" 
+           fname = os.path.basename(raw_data_folder) 
+           cache_file =  f"{os.path.dirname(raw_data_folder)}/raw_cached_{fname}.pt" 
         if not os.path.isfile( cache_file ):
             logger.info("Loading data from raw data folder")
             for filename in tqdm(os.listdir(raw_data_folder)):
