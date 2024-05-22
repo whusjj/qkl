@@ -10,6 +10,14 @@ import json
 from transformers import HfArgumentParser
 from utils.argument import TrainingArguments, DataArguments, TokenizerArguments,ModelArguments
 from loguru import logger
+
+import torch
+import numpy as np
+import random
+
+
+
+
 logger = logger.bind(name="main")
 logger = logger.opt(colors=True)
 def get_vocab_size(token_vocab_path):
@@ -55,7 +63,7 @@ class Main:
 
     def train_model(self):
         if not os.path.exists(self.raw_data_folder):
-            print("File path does not exist.")
+            logger.warning("File path does not exist.")
             return None
             # Load and preprocess data
         if self.debug:
@@ -71,6 +79,7 @@ class Main:
 
             # Validate processed data
             # Train the model
+        graph_data.shuffle()
         model = self.training_pipeline.train(graph_data, self.gnn_module, self.transformer_module)
         return model
 
@@ -88,6 +97,15 @@ if __name__ == "__main__":
     logger.info("Data arguments: {}", data_args)
     logger.info("Tokenizer arguments: {}", tokenizaer_args)
     logger.info("Model arguments: {}", model_args)
+    # Set seeds to ensure reproducibility
+    logger.info(f"Setting seeds for reproducibility Seed {training_args.seed}")
+    torch.manual_seed(training_args.seed)
+    np.random.seed(training_args.seed)
+    random.seed(training_args.seed)
+
+    # # CUDA settings for reproducibility, be aware this can degrade performance
+    # torch.backends.cudnn.deterministic = True
+    # torch.backends.cudnn.benchmark = False
     
     training_args.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     logger.info("Device: {}", training_args.device)

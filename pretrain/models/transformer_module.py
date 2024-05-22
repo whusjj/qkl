@@ -6,7 +6,7 @@ from transformers import GPT2Model, GPT2Config
 import torch_geometric.nn as gnn
 
 class TransformerModule(nn.Module):
-    def __init__(self,output_dim):
+    def __init__(self, gpt_hidden_dim, n_head=12):
         """
         Initializes the Transformer module using GPT-2 as the base model.
         
@@ -14,16 +14,18 @@ class TransformerModule(nn.Module):
             output_dim (int): The dimensionality of the output embeddings.
         """
         super(TransformerModule, self).__init__()
-        self.output_dim = output_dim
+        # self.vocab_size = vocab_size
         self.pooling = gnn.global_mean_pool
         # Initialize GPT-2 configuration with the specified output dimension
-        self.config = GPT2Config(n_embd=output_dim) # 使用默认设置，舍弃原来的初始化方式 n_head = 8,n_embd=output_dim,hidden_size = input_dim
+        # print("output_dim:",output_dim)
+        #if using_gnn_hidden_dim:
+        self.config = GPT2Config(n_embd = gpt_hidden_dim, n_head=n_head) # 使用默认设置，舍弃原来的初始化方式 n_head = 8,n_embd=output_dim,hidden_size = input_dim
+        self.gpt_hidden_dim = gpt_hidden_dim
+        # else:
+        #     self.config =  GPT2Config()
+        #     self.input_dim = self.config.n_embd 
         self.transformer = GPT2Model(self.config)
  
-        # if pre_train == 0 :
-        #     state_dict = torch.load(transformer_model_path)
-        #     self.transformer.load_state_dict(state_dict, strict=False)
-
     
 
     def forward(self, embeddings: torch.Tensor) -> torch.Tensor:
@@ -37,8 +39,8 @@ class TransformerModule(nn.Module):
             torch.Tensor: The output text summary embeddings.
         """
         # Ensure the input embeddings match the expected input dimension
-        if embeddings.size(-1) != self.input_dim:
-            raise ValueError(f"Expected input dimension {self.input_dim}, but got {embeddings.size(-1)}")
+        if embeddings.size(-1) != self.gpt_hidden_dim:
+            raise ValueError(f"Expected input dimension {self.gpt_hidden_dim}, but got {embeddings.size(-1)}")
         # Pass the embeddings through the transformer model
         transformer_outputs = self.transformer(inputs_embeds=embeddings)
         #device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')

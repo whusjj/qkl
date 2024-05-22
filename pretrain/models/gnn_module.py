@@ -33,8 +33,6 @@ class GNNModule(torch.nn.Module):
             self.layers.append(get_simple_gnn_layer(input_dim, input_dim, edge_dim)) #.to('cuda'))  # Place each layer on CUDA
         self.layers.append(get_simple_gnn_layer(input_dim, input_dim, edge_dim)) #.to('cuda'))  # Place the last layer on CUDA
         self.gcn = nn.ModuleList(self.layers)
-        # if pre_train == 0:
-        #     self.gcn.load_state_dict(torch.load(gnn_model_path))
         self.training = True  # Initialize training state
 
     def train_mode(self, mode: bool):

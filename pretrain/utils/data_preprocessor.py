@@ -4,13 +4,15 @@ try:
     import os
     import pickle
     # from torch_geometric.data import Data
-    from EsperantoDataset import EsperantoDataset
+    from utils.EsperantoDataset import EsperantoDataset
     from utils.argument import TokenizerArguments
+    import random
 except ImportError as e:
     print(f"ImportError: {e}")
     raise e
 
 from typing import Optional
+from tqdm import tqdm
 
 class GraphCollection:
     def __init__(self):
@@ -26,15 +28,18 @@ class GraphData:
     """
     A simple data structure to hold graph data.
     """
-    def __init__(self,dataset,split_dict,batch):
+    def __init__(self,dataset,batch):
         self.dataset = dataset
-        self.split_dict = split_dict
+
     
     def __len__(self):
         return len(self.dataset)
     
     def __getitem__(self,index):
         return self.dataset[index]
+
+    def shuffle(self):
+        random.shuffle(self.dataset)
     
 class ProcessedGraphData:
     """
@@ -44,22 +49,39 @@ class ProcessedGraphData:
         self.edge_index = edge_index
         self.node_features = node_features
 
+from loguru import logger
+
 class DataPreprocessor:
     """
     The DataPreprocessor class is responsible for loading and preprocessing graph data.
     """
-    def __init__(self, filepath: str, sequence = 128,batch = 32, tokenizaer_args: TokenizerArguments = None):
+    def __init__(self, raw_data_folder: str, sequence = 128,batch = 32, tokenizaer_args: TokenizerArguments = None, debug:bool = False):
         # try:
         # dataset = np.load(filepath, allow_pickle=True)
         self.batch = batch
         dataset = []
-        for filename in os.listdir(filepath):
-            file_path = os.path.join(filepath, filename)
-            with open(file_path, "rb") as f:
-                graph = pickle.load(f)
-            from torch_geometric.data import Data
-            data = Data(x = graph['x'],edge_attr=graph['edge_attr'],y = graph['y'],edge_index = torch.tensor(graph['edge_index'],dtype=torch.long))
-            dataset.append(data)
+        #with open("corpus.txt", "w") as f_corpus:
+        if debug:
+           cache_file =  f"{os.path.dirname(raw_data_folder)}/raw_cached_debug.pt" 
+        else:
+           cache_file =  f"{os.path.dirname(raw_data_folder)}/raw_cached.pt" 
+        if not os.path.isfile( cache_file ):
+            logger.info("Loading data from raw data folder")
+            for filename in tqdm(os.listdir(raw_data_folder)):
+                file_path = os.path.join(raw_data_folder, filename)
+                with open(file_path, "rb") as f:
+                    graph = pickle.load(f)
+                from torch_geometric.data import Data
+                data = Data(x = graph['x'],edge_attr=graph['edge_attr'], y = graph['y'],edge_index = torch.tensor(graph['edge_index'],dtype=torch.long))
+                dataset.append(data)
+                if debug:
+                    if len(dataset) > 5000:
+                        break
+            torch.save(dataset, cache_file)
+        else:
+            logger.info(f"Loading data from cache {cache_file}")
+            dataset = torch.load(f"{cache_file}")
+
 
         self.dataset = dataset
         self.esperanto_dataset = EsperantoDataset(max_length = sequence, token_vocab_path = tokenizaer_args.token_vocab, token_merge_path = tokenizaer_args.token_merge)
@@ -76,17 +98,18 @@ class DataPreprocessor:
         Returns:
         - GraphData: An instance of the GraphData class containing the loaded data, or None if an error occurs.
         """
-        for i,data in enumerate(self.dataset):
+        for i, data in enumerate(tqdm(self.dataset,  desc="Processing items")):
             tensor_list = self.esperanto_dataset.tokenizer_node(data["x"])
             stacked_tensor = torch.stack(tensor_list)
             self.dataset[i]["x"] = stacked_tensor
-            self.dataset[i]['edge_index'] = torch.tensor(data['edge_index'], dtype=torch.long).t()#可以保留
+            self.dataset[i]['edge_index'] = data['edge_index'].clone().detach().t() #torch.tensor(data['edge_index'], dtype=torch.long).t()#可以保留
             tensor_list = self.esperanto_dataset.tokenizer_node(data["edge_attr"])
             stacked_tensor = torch.stack(tensor_list)
             self.dataset[i]["edge_attr"] = stacked_tensor
-            if data['y']: 
-                self.dataset[i]['Node labels'] = torch.tensor(data['y'], dtype=torch.float).repeat(10,1)
-        return GraphData(self.dataset,self.split_dict,self.batch)
+            
+            # if data['y']: 
+            #     self.dataset[i]['Node labels'] = torch.tensor(data['y'], dtype=torch.float).repeat(10,1)
+        return GraphData(self.dataset, self.batch)
 
     def preprocess(self, graph_data: GraphData) -> Optional[ProcessedGraphData]:
         """

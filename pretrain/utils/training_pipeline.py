@@ -8,38 +8,20 @@ import wandb
 import logging
 import os
 import apex
-from utils.argument import TrainingArguments, ModelArguments
+from utils.argument import TrainingArguments, ModelArguments, TokenizerArguments
 from transformers import get_linear_schedule_with_warmup
 from models.TrxGNNGPT import TrxGNNGPT
-
-def setup_training_log(accelerator,project_name,lr,batch_size):
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(
-        format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt = '%m/%d/%Y %H:%M:%S',level=logging.INFO,handlers=[
-        logging.FileHandler(f'log/training_log_{accelerator.process_index}.txt'),
-        logging.StreamHandler()
-        ]
-    ) 
-    if accelerator.is_main_process:
-        wandb.init(project=project_name,name = 'pretraining', config={"learning_rate": lr, "batch_size": batch_size},  # 参数配置，可记录训练参数
-                  resume="allow")
-        run_name = wandb.run.name
-        tb_writer = SummaryWriter()
-        tb_writer.add_hparams({"lr": lr, "bsize": batch_size},{'0':0})
-        logger.setLevel(logging.INFO)
-    else:
-        tb_writer = None
-        run_name = ''
-        logger.setLevel(logging.ERROR)
-    return logger,tb_writer,run_name
-
+from loguru import logger
+import random
 
 
 
 
 class TrainingPipeline:
-    def __init__(self, train_args:TrainingArguments,model_args: ModelArguments, vocab_size = None): # 调整batch_size,原来是32,可以改成16，等8的倍数
+    def __init__(self,train_args:TrainingArguments,model_args: ModelArguments, tokenizer_args: TokenizerArguments): # 调整batch_size,原来是32,可以改成16，等8的倍数
+        self.tokenizer_args = tokenizer_args 
+        self.train_args = train_args
+        self.model_args = model_args
         self.epochs = train_args.epochs
         self.batch_size = train_args.batch_size
         self.lr = train_args.learning_rate
@@ -51,14 +33,17 @@ class TrainingPipeline:
         self.max_grad_norm = train_args.max_grad_norm
         self.logging_steps = train_args.logging_steps
         self.save_steps = train_args.save_steps
-        self.hidden_dim = train_args.hidden_dim
+        self.gnn_hidden_dim = train_args.gnn_hidden_dim
         self.mlm_probability = train_args.mlm_probability
-        self.vocab_size = vocab_size
+        self.vocab_size = tokenizer_args.vocab_size
         self.is_tighted_lm_head = train_args.is_tighted_lm_head
+        self.masked_node = train_args.masked_node
+        self.masked_edge = train_args.masked_edge
+        assert self.masked_node != self.masked_edge
 
     def collate_fn(self,batch_size, data):
         if data == None:
-            print("no data!")
+            logger.warning("no data!")
             return None
         concatenated_tensors = []
         for i in range(0, len(data)//batch_size):
@@ -74,22 +59,30 @@ class TrainingPipeline:
                 edge_attrs_batch.append(sample['edge_attr'])
                 xs_batch.append(sample['x'])
                 mark.append(offset)
+            # for d in edge_attrs_batch:
+            #     print(d.shape)
             group_edge_attr = torch.cat(edge_attrs_batch, dim=0)
             group_x = torch.cat(xs_batch, dim=0)
             group_edge_index = torch.cat(edge_index_batch, dim=1)
             group_y = torch.tensor(mark, dtype=int)
             group = Data(x = group_x, y = group_y, edge_attr=group_edge_attr,edge_index=group_edge_index)
             concatenated_tensors.append(group)
+        
+        
         return concatenated_tensors
         
 
-    def train(self, dataset,gnn_module, transformer_module) -> TrxGNNGPT:
+    def train(self, dataset, gnn_module, transformer_module) -> TrxGNNGPT:
         # data = dataset.dataset
         # random.shuffle(data)
         # accelerator = Accelerator()
-        data =  self.collate_fn(self.batch_size,dataset)
-        model = self.initialize_model(gnn_module, transformer_module, self.hidden_dim, self.mlm_probability, self.device, self.is_tighted_lm_head)
+        data =  self.collate_fn(self.batch_size, dataset)
+        model = self.initialize_model(gnn_module, transformer_module, self.gnn_hidden_dim, \
+            self.mlm_probability, self.device, self.is_tighted_lm_head, self.masked_node, self.masked_edge)
         model.to(self.device)
+        logger.info(f"model is on {model.device}")
+        logger.info(f"gnn_module is on {next(gnn_module.parameters()).device}")
+        logger.info(f"transformer_module is on {next(transformer_module.parameters()).device}")
         # data = DataLoader(dataset,shuffle=True,batch_size=8,collate_fn = )
         optimizer = torch.optim.Adam(model.parameters(), lr=self.lr)
         scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=10000,
@@ -104,9 +97,10 @@ class TrainingPipeline:
         if self.fp16:
             try:
                 from apex.apex import amp
+                model, optimizer = amp.initialize(model, optimizer, opt_level="O1")
             except ImportError:
                 raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
-        model, optimizer = amp.initialize(model, optimizer, opt_level="O1")
+                
         tr_loss, logging_loss,avg_loss,tr_nb = 0.0, 0.0,0.0,0
         # model,optimizer,data  = accelerator.prepare(model,optimizer,data)
         criterion = torch.nn.CrossEntropyLoss(reduce=False)
@@ -114,10 +108,10 @@ class TrainingPipeline:
         step = 0 
         global_step = self.start_step
         for epoch in range(self.epochs):
-            print("epoch:",epoch)
+            logger.info(f"epoch: {epoch}")
             total_loss = 0
-            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-            for i,batch in tqdm.tqdm(enumerate(data)):
+            # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            for i,batch in enumerate(tqdm.tqdm(data, desc=f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")):
                 step += 1
                 labels,predictions = model(batch)
                 loss_1 = criterion(predictions.view(-1, self.vocab_size).to(self.device), labels.view(-1).to(self.device))
@@ -140,18 +134,83 @@ class TrainingPipeline:
                     output_flag=True
                     avg_loss=round((tr_loss - logging_loss) /(global_step- tr_nb),6)
                     if global_step % 100 == 0:
-                        print(" steps: %s loss: %s", global_step, round(avg_loss,6))
+                        logger.info(" steps: %s loss: %s", global_step, round(avg_loss,6))
                     if  self.logging_steps > 0 and global_step % self.logging_steps == 0:
                         logging_loss = tr_loss
                         tr_nb = global_step
                     #if self.save_steps > 0 and global_step % self.save_steps == 0:
                 total_loss += a_loss                
-            print(f"Epoch {epoch+1}/{self.epochs}, total Loss: {total_loss}")
+            logger.info(f"Epoch {epoch+1}/{self.epochs}, total Loss: {total_loss}")
         return model
 
-    def initialize_model(self, gnn_module, transformer_module, hidden_dim, mlm_probability, device, is_tighted_lm_head) -> TrxGNNGPT:
-        model = TrxGNNGPT(gnn_module, transformer_module,self.vocab_size, hidden_dim, mlm_probability, device, is_tighted_lm_head)
+    def initialize_model(self, gnn_module, transformer_module, gnn_hidden_dim, mlm_probability, device,\
+        is_tighted_lm_head, masked_node, masked_edge) -> TrxGNNGPT:
+        model = TrxGNNGPT(gnn_module, transformer_module, self.tokenizer_args, gnn_hidden_dim, \
+            mlm_probability, device, is_tighted_lm_head,masked_node, masked_edge)
         return model
+    
+    def get_special_tokens_mask(self,value):
+        condition = torch.isin(value, torch.tensor(self.special_token_id,dtype=torch.int))
+        output_tensor = torch.where(condition, torch.zeros_like(value), torch.ones_like(value))
+        return output_tensor
+    
+    def mask_edge(self,labels,y,index):
+        prob_matrix = []
+        for i in range(y.shape[0] - 1):
+            edge_number = ((index[0] >= y[i]) & (index[0] < y[i+1])).sum()
+            #求出每一个图的边数
+            rand = random.randint(0,edge_number-1)
+            indices_replaced = torch.bernoulli(torch.full((edge_number, 1),self.mlm_probability)).bool().to(self.device)
+            # probability_matrix[torch.nonzero(indices_replaced == False)[0][0],:]  = 1
+            probability_matrix = torch.zeros((edge_number,labels.shape[1])).to(self.device)
+            if torch.any(indices_replaced == True):
+                probability_matrix[torch.nonzero(indices_replaced == True)[0][0],:]  = 1
+            else:
+                probability_matrix[rand,:] = 1
+            prob_matrix.append(probability_matrix)
+        prob_matrix = torch.cat(prob_matrix, dim = 0)
+        return prob_matrix
+
+    def mask_node(self,labels,y):
+        prob_matrix = []
+        for i in range(y.shape[0] - 1):
+            rand = random.randint(0,y[i+1]-y[i]-1)
+            indices_replaced = torch.bernoulli(torch.full((y[i + 1] - y[i], 1),self.mlm_probability)).bool().to(self.device)
+            # probability_matrix[torch.nonzero(indices_replaced == False)[0][0],:]  = 1
+            probability_matrix = torch.zeros((y[i + 1] - y[i],labels.shape[1])).to(self.device)
+            if torch.any(indices_replaced == True):
+                probability_matrix[torch.nonzero(indices_replaced == True)[0][0],:]  = 1
+            else:
+                probability_matrix[rand,:] = 1
+            prob_matrix.append(probability_matrix)
+        prob_matrix = torch.cat(prob_matrix, dim = 0)
+        return prob_matrix
+
+    def mask_label(self,data, masked_node, masked_edge,y,index = None):
+        labels = data.clone()
+        masked_data = data.clone()
+        if masked_node:
+            probability_matrix = self.mask_node(labels,y)
+        if masked_edge:
+            probability_matrix = self.mask_edge(labels,y,index)
+        # pdb.set_trace()
+        special_tokens_mask = [self.get_special_tokens_mask(val).tolist() for val in labels]
+        tensor_list = torch.tensor(special_tokens_mask, dtype=torch.int).to(self.device)
+        masked_indices = probability_matrix*tensor_list
+        masked_indices = masked_indices.bool()
+        labels[~masked_indices] = -100  # We only compute loss on masked tokens
+        masked_data[masked_indices] = self.mask_id
+        # Assert to check if all elements in labels are -100
+       # assert torch.all(labels == -100), f"Not all elements in labels are -100, {data}, \n {labels}, \n masked_node {masked_node}, masked_edge {masked_edge}"
+        # 80% of the time, we replace masked input tokens with tokenizer.mask_token ([MASK])
+        # indices_replaced = torch.bernoulli(torch.full(labels.shape, 0.8)).bool().to(device) & masked_indices
+        # data[indices_replaced] = self.mask_ids
+        # 10% of the time, we replace masked input tokens with random word
+        # indices_random = torch.bernoulli(torch.full(labels.shape, 0.5)).bool().to(device) & masked_indices & ~indices_replaced
+        # random_words = torch.randint(self.vocab_size, labels.shape, dtype=torch.long).to(device)
+        # data[indices_random] = random_words[indices_random]
+        # The rest of the time (10% of the time) we keep the masked input tokens unchanged
+        return masked_data, labels
 
 # Note: It's assumed that the dataset class provides a method `get_labels(batch)` to access the target labels.
 # This should be implemented in the dataset class to ensure compatibility with this training pipeline.
