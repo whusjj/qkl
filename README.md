@@ -1,15 +1,48 @@
-ETHLLM是SAT与pure transformer结合后的源码，目前还没有加入tokenizer，ETHLLM最后的进展在master分支
+## Data
+```
+Options
+--raw_data_folder : folder path to the *.pl files
+--pickle_path : save preprocessed graph daa
+```
 
+## Tokenizer
 
-SAT和tokengt是复现的源码，
+`tokenizer` is a small tokenizer with about 5,000 tokens
 
-预训练最后的进展在pertraining1.4分支，
+`tokenizer_larger` is a large tokenzier with more than 2w tokens
 
-casual是因果语言模型，
+## Run
 
-generate是掩码语言模型
+Please refer `utils/argument.py`
 
-apex是跑代码可能需要用到的库，解压后直接安装在文件夹下即可
-
-test是下游任务模型
-
+```shell
+python main.py \
+    --learning_rate 3e-5 \
+    --do_train \
+    --do_eval \
+    --seed 42 \
+    --epochs 5 \
+    --batch_size 32 \
+    --masked_edge \
+    --device 'cuda:0' \
+    --start_step 100 \
+    --gradient_accumulation_steps 10 \
+    --max_grad_norm 5 \
+    --logging_steps 1000 \
+    --save_steps 1000 \
+    --gnn_hidden_dim 64 \
+    --gpt_hidden_dim $gpt_hidden_dim \
+    --gpt_num_head $gpt_num_head \
+    --mlm_probability 0.15 \
+    --sequence 128 \
+    --is_tighted_lm_head \
+    --output_dir $saved_model \
+    --gnn_model_path 'gnn_model.pth' \
+    --transformer_model_path 'transformer_model.pth' \
+    --emb_model_path 'nn_embedding_model.pth' \
+    --raw_data_folder $raw_data_folder \
+    --pickle_path $pickle_path \
+    --tokenizer_dir 'tokenizer' \
+    --token_vocab 'esperberto-vocab.json' \
+    --token_merge 'esperberto-merges.txt' 2>&1 | tee  $saved_model/log.txt
+```
