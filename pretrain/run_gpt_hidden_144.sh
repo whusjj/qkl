@@ -14,7 +14,6 @@ CUDA_LAUNCH_BLOCKING=1 python main.py \
     --seed 42 \
     --epochs 5 \
     --batch_size 32 \
-    --fp16 \
     --masked_edge \
     --device 'cuda:0' \
     --start_step 100 \
@@ -23,7 +22,7 @@ CUDA_LAUNCH_BLOCKING=1 python main.py \
     --logging_steps 1000 \
     --save_steps 1000 \
     --gnn_hidden_dim 64 \
-    --gpt_hidden_dim 768 \
+    --gpt_hidden_dim 144 \
     --gpt_num_head 12 \
     --mlm_probability 0.15 \
     --sequence 128 \
@@ -37,7 +36,9 @@ CUDA_LAUNCH_BLOCKING=1 python main.py \
     --pickle_path './data/preprocessed/data.pickle' \
     --tokenizer_dir 'tokenizer' \
     --token_vocab 'esperberto-vocab.json' \
-    --token_merge 'esperberto-merges.txt'
+    --token_merge 'esperberto-merges.txt' \
+    --debug
+    # --fp16 \
     # --train_file './data/split/train.pickle' \
     # --eval_file './data/split/eval.pickle' \
     # --test_file './data/split/test.pickle' \

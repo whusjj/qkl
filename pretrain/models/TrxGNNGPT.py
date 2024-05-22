@@ -34,11 +34,11 @@ class TrxGNNGPT(nn.Module):
         
         if is_tighted_lm_head:
             # Tie weights
-            assert self.transformer_module.gpt_hidden_dim == self.gnn_hidden_dim
-            self.lm_head = torch.nn.Linear(self.transformer_module.gpt_hidden_dim, self.vocab_size, bias=False)
+            #assert self.transformer_module.gpt_hidden_dim == self.gnn_hidden_dim
+            self.lm_head = torch.nn.Linear(self.gnn_hidden_dim, self.vocab_size, bias=False)
             self._tie_or_clone_weights(self.lm_head, self.embedding_layer)
         else:
-            self.lm_head = torch.nn.Linear(self.transformer_module.gpt_hidden_dim, self.vocab_size)
+            self.lm_head = torch.nn.Linear(self.gnn_hidden_dim, self.vocab_size)
    
     def _tie_or_clone_weights(self, output_embeddings, input_embeddings):
         """Tie or clone module weights depending on whether TorchScript is used"""

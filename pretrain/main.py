@@ -93,6 +93,7 @@ if __name__ == "__main__":
     # token_merge = "esperberto-merges.txt"
     parser = HfArgumentParser((TrainingArguments, DataArguments, TokenizerArguments,ModelArguments))
     training_args, data_args, tokenizaer_args, model_args = parser.parse_args_into_dataclasses()
+    logger.add("pretrain_{time}.log")
     logger.info("Training arguments: {}", training_args)
     logger.info("Data arguments: {}", data_args)
     logger.info("Tokenizer arguments: {}", tokenizaer_args)

@@ -5,7 +5,6 @@ from torch.utils.tensorboard import SummaryWriter
 import tqdm
 from accelerate import Accelerator
 import wandb
-import logging
 import os
 import apex
 from utils.argument import TrainingArguments, ModelArguments, TokenizerArguments
@@ -111,7 +110,10 @@ class TrainingPipeline:
             logger.info(f"epoch: {epoch}")
             total_loss = 0
             # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-            for i,batch in enumerate(tqdm.tqdm(data, desc=f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")):
+            # Initialize tqdm progress bar with an initial description
+            pbar = tqdm.tqdm(data, desc="Initial")
+            for i,batch in enumerate(pbar): #(tqdm.tqdm(data, desc=f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")):
+                pbar.set_description(f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")
                 step += 1
                 labels,predictions = model(batch)
                 loss_1 = criterion(predictions.view(-1, self.vocab_size).to(self.device), labels.view(-1).to(self.device))
