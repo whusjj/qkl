@@ -41,6 +41,10 @@ class GNNModule(torch.nn.Module):
     def forward(self, graph: Graph) -> torch.Tensor:
         for gcn_layer in self.gcn:
             x, edge_index, edge_attr = graph['x'], graph['edge_index'], graph['edge_attr'] #.to('cuda')
+            # print(x.shape, edge_index.shape, edge_attr.shape)
+            # torch.save(x, "x.pt")
+            # torch.save(edge_index, "edge_index.pt")
+            # torch.save(edge_attr, "edge_attr.pt")
             x = self.relu(gcn_layer(x, edge_index, edge_attr=edge_attr))
             if self.training:
                 x = torch.dropout(x, p=0.5, train=True)

@@ -68,16 +68,23 @@ class DataPreprocessor:
            cache_file =  f"{os.path.dirname(raw_data_folder)}/raw_cached_{fname}.pt" 
         if not os.path.isfile( cache_file ):
             logger.info("Loading data from raw data folder")
+            counter = 0
             for filename in tqdm(os.listdir(raw_data_folder)):
                 file_path = os.path.join(raw_data_folder, filename)
                 with open(file_path, "rb") as f:
                     graph = pickle.load(f)
                 from torch_geometric.data import Data
+                i_min, i_max = graph['edge_index'].min(), graph['edge_index'].max()
+                n_max = len(graph['x'])-1
+                if i_min < 0 or i_max > n_max:
+                   continue
+                counter += 1
                 data = Data(x = graph['x'],edge_attr=graph['edge_attr'], y = graph['y'],edge_index = torch.tensor(graph['edge_index'],dtype=torch.long))
                 dataset.append(data)
                 if debug:
                     if len(dataset) > 5000:
                         break
+            logger.info(f"Saving data to cache {cache_file} Num .pt file {counter}")
             torch.save(dataset, cache_file)
         else:
             logger.info(f"Loading data from cache {cache_file}")

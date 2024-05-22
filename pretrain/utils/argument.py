@@ -7,7 +7,7 @@ class TrainingArguments:
     do_train: bool = False
     do_eval: bool = False
     seed: int = 42
-    epochs: int  = 100
+    epochs: int  = 5
     batch_size: int   =  32
     fp16: bool   = True
     device: str   = 'cpu' #torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -21,7 +21,6 @@ class TrainingArguments:
     gpt_num_head: int = 12
     mlm_probability: float   = 0.15
     sequence: int = 128
-    epoch: int = 5
     is_tighted_lm_head: bool  = True
     masked_node: bool  = False
     masked_edge: bool  = True

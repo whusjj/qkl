@@ -1,4 +1,4 @@
-saved_model/
+saved_model_**/
 *.pt
 __pycache__/
 .ipynb_checkpoints/
@@ -8,5 +8,9 @@ pretrain_data_62580.tar.gz
 pretrain_data_200000.tar.gz
 result/
 data/
-new_tokenizer/corpus.txt
+tokenizer_larger/corpus.txt
 *.log
+log.txt
+logs/
+graph/
+saved_model_gpt_hidden_dim_64_8

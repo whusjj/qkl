@@ -143,8 +143,21 @@ class TrainingPipeline:
                     #if self.save_steps > 0 and global_step % self.save_steps == 0:
                 total_loss += a_loss                
             logger.info(f"Epoch {epoch+1}/{self.epochs}, total Loss: {total_loss}")
+            logger.info(f"Saving model at the end of epoch {epoch}, "+"{}/{}".format(self.model_args.output_dir, epoch))
+            self.save_end_epoch(model, epoch, self.model_args)
         return model
-
+    
+    def save_end_epoch(self, model:TrxGNNGPT, epoch:int, model_args: ModelArguments):
+        os.makedirs("{}/epoch_{}".format(model_args.output_dir, epoch), exist_ok=True)
+        gnn_model_path = "{}/epoch_{}/gnn_model.pth".format(model_args.output_dir, epoch)
+        transformer_model_path = "{}/epoch_{}/transformer_model.pth".format(model_args.output_dir, epoch)
+        emb_model_path = "{}/epoch_{}/nn_embedding_model.pth".format(model_args.output_dir, epoch)
+        
+        torch.save(model.embedding_layer.state_dict(), emb_model_path)
+        torch.save(model.transformer_module.transformer.state_dict(), transformer_model_path )
+        torch.save(model.gnn_module.gcn.state_dict(), gnn_model_path)
+        torch.save(model.state_dict(), "{}/epoch_{}/model.pth".format(model_args.output_dir, epoch))
+    
     def initialize_model(self, gnn_module, transformer_module, gnn_hidden_dim, mlm_probability, device,\
         is_tighted_lm_head, masked_node, masked_edge) -> TrxGNNGPT:
         model = TrxGNNGPT(gnn_module, transformer_module, self.tokenizer_args, gnn_hidden_dim, \

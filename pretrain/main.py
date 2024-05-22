@@ -41,7 +41,7 @@ class Main:
         self.gnn_hidden_dim = self.training_args.gnn_hidden_dim
         self.mlm_probability = self.training_args.mlm_probability
         self.batch_size = self.training_args.batch_size
-        self.epoch = self.training_args.epoch
+        # self.epoch = self.training_args.epoch
         self.debug = self.training_args.debug
         
         self.pickle_path = self.data_args.pickle_path #"/root/autodl-tmp/pre_train/generate/data.pickle"
@@ -83,7 +83,16 @@ class Main:
         model = self.training_pipeline.train(graph_data, self.gnn_module, self.transformer_module)
         return model
 
+import sys
 
+# def setup_logger():
+#     logger.add(sys.stderr, format="{time} {level} {message}", level="INFO")
+#     logger.add("file.log", format="{time} {level} {message}", level="ERROR")
+
+#     def catch(*args):
+#         logger.exception("An uncaught exception occurred:")
+
+#     sys.excepthook = catch
 
 if __name__ == "__main__":
     # filepath = "/root/autodl-tmp/pre_train/generate/result"  # Placeholder path
@@ -93,7 +102,9 @@ if __name__ == "__main__":
     # token_merge = "esperberto-merges.txt"
     parser = HfArgumentParser((TrainingArguments, DataArguments, TokenizerArguments,ModelArguments))
     training_args, data_args, tokenizaer_args, model_args = parser.parse_args_into_dataclasses()
-    logger.add("pretrain_{time}.log")
+    os.makedirs("logs", exist_ok=True)
+    logger.add(f"{model_args.output_dir}/pretrain.log")
+    #setup_logger()
     logger.info("Training arguments: {}", training_args)
     logger.info("Data arguments: {}", data_args)
     logger.info("Tokenizer arguments: {}", tokenizaer_args)
@@ -115,19 +126,19 @@ if __name__ == "__main__":
     tokenizaer_args.token_merge = "{}/{}".format(tokenizaer_args.tokenizer_dir, tokenizaer_args.token_merge)
     tokenizaer_args.vocab_size = get_vocab_size(tokenizaer_args.token_vocab)
     
-    model_args.gnn_model_path = "{}/gnn_model.pth".format(model_args.output_dir)
-    model_args.transformer_model_path = "{}/transformer_model.pth".format(model_args.output_dir)
-    model_args.emb_model_path = "{}/nn_embedding_model.pth".format(model_args.output_dir)
+    # model_args.gnn_model_path = "{}/gnn_model.pth".format(model_args.output_dir)
+    # model_args.transformer_model_path = "{}/transformer_model.pth".format(model_args.output_dir)
+    # model_args.emb_model_path = "{}/nn_embedding_model.pth".format(model_args.output_dir)
     
     if os.path.exists(model_args.output_dir):
         os.makedirs(model_args.output_dir, exist_ok=True)
         
     main = Main(training_args, data_args, tokenizaer_args, model_args)
     model = main.train_model()
-    # 这边还要model save
-    torch.save(model.embedding_layer.state_dict(), model_args.emb_model_path)
-    torch.save(model.transformer_module.transformer.state_dict(), model_args.transformer_model_path )
-    torch.save(model.gnn_module.gcn.state_dict(), model_args.gnn_model_path)
+    # # 这边还要model save
+    # torch.save(model.embedding_layer.state_dict(), model_args.emb_model_path)
+    # torch.save(model.transformer_module.transformer.state_dict(), model_args.transformer_model_path )
+    # torch.save(model.gnn_module.gcn.state_dict(), model_args.gnn_model_path)
     if model is not None:
         print("Training completed.")
     else:
