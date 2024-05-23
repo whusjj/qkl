@@ -90,7 +90,21 @@ class TrainingPipeline:
         logger.info(f"gnn_module is on {next(gnn_module.parameters()).device}")
         logger.info(f"transformer_module is on {next(transformer_module.parameters()).device}")
         # data = DataLoader(dataset,shuffle=True,batch_size=8,collate_fn = )
-        optimizer = torch.optim.Adam(model.parameters(), lr=self.lr)
+        # # Prepare optimizer
+        # param_optimizer = list(model.named_parameters())
+        # no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
+        # optimizer_grouped_parameters = [{
+        #     'params':
+        #     [p for n, p in param_optimizer if not any(nd in n for nd in no_decay)],
+        #     'weight_decay':
+        #     0.01
+        # }, {
+        #     'params':
+        #     [p for n, p in param_optimizer if any(nd in n for nd in no_decay)],
+        #     'weight_decay':
+        #     0.0
+        # }]
+        optimizer = torch.optim.AdamW(model.parameters(), lr=self.lr)
         scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=10000,
                                                 num_training_steps=100)
         checkpoint_last = os.path.join(self.output_dir, 'checkpoint-last')
