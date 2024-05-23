@@ -22,7 +22,6 @@ class ClassificationHead(nn.Module):
         # take <s> token (equiv. to [CLS])
         # take mean/sum of all tokens
         x = features[:, 0, :]  # take <s> token (equiv. to [CLS])
-        x = x.reshape(-1,x.size(-1)*2)
         x = self.dropout(x)
         x = self.dense(x)
         x = torch.tanh(x)
