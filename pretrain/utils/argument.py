@@ -9,7 +9,7 @@ class TrainingArguments:
     seed: int = 42
     epochs: int  = 5
     batch_size: int   =  32
-    fp16: bool   = True
+    fp16: bool   = False
     device: str   = 'cpu' #torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     start_step: int   = 100
     gradient_accumulation_steps: int   =  10
@@ -23,7 +23,7 @@ class TrainingArguments:
     sequence: int = 128
     is_tighted_lm_head: bool  = True
     masked_node: bool  = False
-    masked_edge: bool  = True
+    masked_edge: bool  = False
     debug: bool = False
     
 @dataclass

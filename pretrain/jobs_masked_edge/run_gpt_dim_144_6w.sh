@@ -1,22 +1,22 @@
 #!/bin/bash
-
+cd ../
 
 [ -d data/raw_data ] || mkdir -p data/raw_data
 [ -d data/preprocessed ] || mkdir -p data/preprocessed
 [ -d data/split ] || mkdir -p data/split
 
-gpt_hidden_dim=64
-gpt_num_head=8
-tokenizer_dir="tokenizer_larger"
-token_vocab="vocab.json"
-token_merge="merges.txt"
-raw_data_folder='./data/raw_data'
-pickle_path='./data/preprocessed/data_larger_tokenizaer.pickle'
-saved_model="saved_model_gpt_hidden_dim_${gpt_hidden_dim}_${gpt_num_head}_${tokenizer_dir}"
-[ -d $saved_model ] || mkdir $saved_model
+gpt_hidden_dim=144
+gpt_num_head=12
+tokenizer_dir=$1
+token_vocab=$2
+token_merge=$3
+raw_data_folder='./data/raw_data_6w'
+pickle_path='./data/preprocessed/data_6w.pickle'
+saved_model="saved_model_6w"
 
 # export TORCH_USE_CUDA_DSA=1
 # CUDA_LAUNCH_BLOCKING=1 
+script_name=$(basename "$0")
 python main.py \
     --learning_rate 3e-5 \
     --do_train \
@@ -42,11 +42,12 @@ python main.py \
     --transformer_model_path 'transformer_model.pth' \
     --emb_model_path 'nn_embedding_model.pth' \
     --raw_data_folder $raw_data_folder \
-    --pickle_path  $pickle_path \
+    --pickle_path $pickle_path \
     --tokenizer_dir $tokenizer_dir \
     --token_vocab $token_vocab \
-    --token_merge $token_merge 2>&1 | tee  $saved_model/log.txt
+    --token_merge $token_merge 2>&1 | tee  jobs_masked_edge/log_${script_name}_${tokenizer_dir}.txt
 
     # --train_file './data/split/train.pickle' \
     # --eval_file './data/split/eval.pickle' \
     # --test_file './data/split/test.pickle' \
+cd -

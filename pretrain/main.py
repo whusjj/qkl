@@ -103,6 +103,12 @@ if __name__ == "__main__":
     parser = HfArgumentParser((TrainingArguments, DataArguments, TokenizerArguments,ModelArguments))
     training_args, data_args, tokenizaer_args, model_args = parser.parse_args_into_dataclasses()
     #os.makedirs("logs", exist_ok=True)
+    tokenizaer_args.token_vocab = "{}/{}".format(tokenizaer_args.tokenizer_dir, tokenizaer_args.token_vocab)
+    tokenizaer_args.token_merge = "{}/{}".format(tokenizaer_args.tokenizer_dir, tokenizaer_args.token_merge)
+    
+    model_args.output_dir = f"{model_args.output_dir}_vocab_size_{get_vocab_size(tokenizaer_args.token_vocab)}_{training_args.gpt_hidden_dim}_{training_args.gpt_num_head}_{training_args.gnn_hidden_dim}_{training_args.mlm_probability}_{training_args.batch_size}_{training_args.epochs}_{training_args.learning_rate}_mask_node_{training_args.masked_node}_mask_edge_{training_args.masked_edge}_{training_args.is_tighted_lm_head}_{training_args.debug}"
+    data_args.pickle_path = f"{data_args.pickle_path}_vocab_size_{get_vocab_size(tokenizaer_args.token_vocab)}"
+    os.makedirs(model_args.output_dir, exist_ok=True)
     logger.add(f"{model_args.output_dir}/pretrain.log")
     #setup_logger()
     logger.info("Training arguments: {}", training_args)
@@ -121,9 +127,6 @@ if __name__ == "__main__":
     
     training_args.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     logger.info("Device: {}", training_args.device)
-    
-    tokenizaer_args.token_vocab = "{}/{}".format(tokenizaer_args.tokenizer_dir, tokenizaer_args.token_vocab)
-    tokenizaer_args.token_merge = "{}/{}".format(tokenizaer_args.tokenizer_dir, tokenizaer_args.token_merge)
     tokenizaer_args.vocab_size = get_vocab_size(tokenizaer_args.token_vocab)
     
     # model_args.gnn_model_path = "{}/gnn_model.pth".format(model_args.output_dir)

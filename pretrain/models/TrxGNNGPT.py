@@ -70,8 +70,17 @@ class TrxGNNGPT(nn.Module):
         labels = None
         masked_node_data = None
         masked_edge_data = None
-        if self.masked_node: #rand为1就掩码点否则掩码边
-            masked_node_data,labels= self.mask_label(tmp["x"], self.masked_node, False,graph_data['y'])
+        # Generate a random integer between 0 and 1
+        masked_edge = self.mask_edge
+        masked_node = self.mask_node
+        if self.mask_edge and self.mask_node:
+            random_integer = torch.randint(2, (1,))
+            # Convert the integer to a Boolean value (True or False)
+            masked_edge = bool(random_integer)
+            masked_node = not masked_edge
+
+        if masked_node: #rand为1就掩码点否则掩码边
+            masked_node_data,labels= self.mask_label(tmp["x"], masked_node, False,graph_data['y'])
         else:
             masked_node_data = tmp["x"]
         token_data = masked_node_data.to(device)
@@ -84,8 +93,8 @@ class TrxGNNGPT(nn.Module):
             embeddings.append(output)
         embeddings = torch.cat(embeddings, dim=0)
         tmp["x"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
-        if self.masked_edge:
-            masked_edge_data,labels= self.mask_label(tmp["edge_attr"],False, self.masked_edge, graph_data['y'],index = graph_data['edge_index'])
+        if masked_edge:
+            masked_edge_data,labels= self.mask_label(tmp["edge_attr"],False, masked_edge, graph_data['y'],index = graph_data['edge_index'])
         else :
             masked_edge_data = tmp["edge_attr"]
         # token_data = self.esperanto_dataset.tokenizer_node(graph_data["edge_attr"])
@@ -100,7 +109,7 @@ class TrxGNNGPT(nn.Module):
         tmp["edge_attr"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
         tmp['edge_index'] = tmp['edge_index'].to(device)
         embeddings = self.gnn_module.forward(tmp)
-        if self.masked_edge:
+        if masked_edge:
             edge_embedding = torch.empty(labels.shape[0],embeddings.shape[1])
             for i in range(0,labels.shape[0]):
                 edge_embedding[i] = embeddings[tmp["edge_index"][0][i]] + embeddings[tmp["edge_index"][1][i]]

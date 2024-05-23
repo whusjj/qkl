@@ -38,7 +38,7 @@ class TrainingPipeline:
         self.is_tighted_lm_head = train_args.is_tighted_lm_head
         self.masked_node = train_args.masked_node
         self.masked_edge = train_args.masked_edge
-        assert self.masked_node != self.masked_edge
+        #assert self.masked_node != self.masked_edge
 
     def collate_fn(self,batch_size, data):
         if data == None:

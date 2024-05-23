@@ -5,15 +5,12 @@
 [ -d data/preprocessed ] || mkdir -p data/preprocessed
 [ -d data/split ] || mkdir -p data/split
 
-gpt_hidden_dim=144
-gpt_num_head=12
-tokenizer_dir="tokenizer"
-token_vocab="esperberto-vocab.json"
-token_merge="esperberto-merges.txt"
-raw_data_folder='./data/raw_data_6w'
-pickle_path='./data/preprocessed/data_larger_tokenizaer_6w.pickle'
-saved_model="saved_model_gpt_hidden_dim_${gpt_hidden_dim}_${gpt_num_head}_6w"
-[ -d $saved_model ] || mkdir $saved_model
+gpt_hidden_dim=64
+gpt_num_head=8
+tokenizer_dir=$1
+token_vocab=$2
+token_merge=$3
+saved_model="saved_model"
 
 # export TORCH_USE_CUDA_DSA=1
 # CUDA_LAUNCH_BLOCKING=1 
@@ -24,7 +21,7 @@ python main.py \
     --seed 42 \
     --epochs 5 \
     --batch_size 32 \
-    --masked_edge \
+    --masked_node \
     --device 'cuda:0' \
     --start_step 100 \
     --gradient_accumulation_steps 10 \
@@ -41,8 +38,8 @@ python main.py \
     --gnn_model_path 'gnn_model.pth' \
     --transformer_model_path 'transformer_model.pth' \
     --emb_model_path 'nn_embedding_model.pth' \
-    --raw_data_folder $raw_data_folder \
-    --pickle_path $pickle_path \
+    --raw_data_folder './data/raw_data' \
+    --pickle_path './data/preprocessed/data.pickle' \
     --tokenizer_dir 'tokenizer' \
     --token_vocab 'esperberto-vocab.json' \
     --token_merge 'esperberto-merges.txt' 2>&1 | tee  $saved_model/log.txt
