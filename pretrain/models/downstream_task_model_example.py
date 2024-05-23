@@ -9,6 +9,9 @@ from torch.nn import CrossEntropyLoss, MSELoss
 from TrxGNNGPT import TrxGNNGPT
 import torch.nn.functional as F
 # https://github.com/microsoft/CodeXGLUE/blob/main/Code-Code/Clone-detection-BigCloneBench/code/model.py    
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 class ClassificationHead(nn.Module):
     """Head for sentence-level classification tasks."""
 
