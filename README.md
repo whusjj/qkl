@@ -55,3 +55,20 @@ python main.py \
     --token_vocab 'esperberto-vocab.json' \
     --token_merge 'esperberto-merges.txt' 2>&1 | tee  $saved_model/log.txt
 ```
+
+## Downstream tasks
+划分3个数据集， train, valid, test
+
+n steps train, validation, -> save best model 
+
+load best model - run test -> report
+test
+
+
+- downstream_tasks
+    - task1
+        - main.py
+        - model.py
+        - ...
+    - task2
+    - task3
