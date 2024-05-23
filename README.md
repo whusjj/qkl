@@ -11,7 +11,14 @@ Options
 
 `tokenizer` is a small tokenizer with about 5,000 tokens
 
-`tokenizer_larger` is a large tokenzier with more than 2w tokens
+`tokenizer_larger` is a large tokenzier with more than 1w tokens
+
+## Tre-Training 方式
+   - 分别使用5000和1w大小的tokenizer
+   - 只mask edge
+   - 只mask node
+   - mask node and edge
+
 
 ## Run
 
