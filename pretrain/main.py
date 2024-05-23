@@ -14,7 +14,7 @@ from loguru import logger
 import torch
 import numpy as np
 import random
-
+import deepspeed
 
 
 
@@ -101,6 +101,7 @@ if __name__ == "__main__":
     # token_vocab = "esperberto-vocab.json"
     # token_merge = "esperberto-merges.txt"
     parser = HfArgumentParser((TrainingArguments, DataArguments, TokenizerArguments,ModelArguments))
+    parser = deepspeed.add_config_arguments(parser)
     training_args, data_args, tokenizaer_args, model_args = parser.parse_args_into_dataclasses()
     #os.makedirs("logs", exist_ok=True)
     tokenizaer_args.token_vocab = "{}/{}".format(tokenizaer_args.tokenizer_dir, tokenizaer_args.token_vocab)

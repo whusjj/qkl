@@ -4,11 +4,12 @@ cd ../
 [ -d data/preprocessed ] || mkdir -p data/preprocessed
 [ -d data/split ] || mkdir -p data/split
 
-gpt_hidden_dim=64
+
 gpt_num_head=8
 tokenizer_dir=$1
 token_vocab=$2
 token_merge=$3
+gpt_hidden_dim=64
 raw_data_folder='./data/raw_data_6w'
 pickle_path='./data/preprocessed/data_6w.pickle'
 saved_model="saved_model_6w"

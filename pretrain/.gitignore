@@ -6,7 +6,7 @@ __pycache__/
 apex/
 pretrain_data_62580.tar.gz
 pretrain_data_200000.tar.gz
-pretrained_vocab_5000_masked_edge_18w_trx.tar..gz
+pretrained_vocab_5000_masked_edge_18w_trx.tar.gz
 result/
 data/
 tokenizer_larger/corpus.txt

@@ -12,7 +12,7 @@ from transformers import get_linear_schedule_with_warmup
 from models.TrxGNNGPT import TrxGNNGPT
 from loguru import logger
 import random
-
+import deepspeed
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -79,6 +79,8 @@ class TrainingPipeline:
         data =  self.collate_fn(self.batch_size, dataset)
         model = self.initialize_model(gnn_module, transformer_module, self.gnn_hidden_dim, \
             self.mlm_probability, self.device, self.is_tighted_lm_head, self.masked_node, self.masked_edge)
+        
+        
         logger.info(f"TrxGNNGPT has {count_parameters(model)} parameters")
         logger.info(f"gnn_module has {count_parameters(gnn_module)} parameters")
         logger.info(f"transformer_module has {count_parameters(transformer_module)} parameters")
@@ -88,7 +90,7 @@ class TrainingPipeline:
         logger.info(f"gnn_module is on {next(gnn_module.parameters()).device}")
         logger.info(f"transformer_module is on {next(transformer_module.parameters()).device}")
         # data = DataLoader(dataset,shuffle=True,batch_size=8,collate_fn = )
-        optimizer = torch.optim.Adam(model.parameters(), lr=self.lr)
+        # optimizer = torch.optim.AdamW(model.parameters(), lr=self.lr)
         scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=10000,
                                                 num_training_steps=100)
         checkpoint_last = os.path.join(self.output_dir, 'checkpoint-last')
@@ -104,6 +106,24 @@ class TrainingPipeline:
                 model, optimizer = amp.initialize(model, optimizer, opt_level="O1")
             except ImportError:
                 raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
+        
+        # Prepare optimizer
+        param_optimizer = list(model.named_parameters())
+        no_decay = ['bias', 'LayerNorm.bias', 'LayerNorm.weight']
+        optimizer_grouped_parameters = [{
+            'params':
+            [p for n, p in param_optimizer if not any(nd in n for nd in no_decay)],
+            'weight_decay':
+            0.01
+        }, {
+            'params':
+            [p for n, p in param_optimizer if any(nd in n for nd in no_decay)],
+            'weight_decay':
+            0.0
+        }]
+    
+        model, optimizer, _, _ = deepspeed.initialize(args=args, model=model,model_parameters=optimizer_grouped_parameters,
+        dist_init_required=True)
                 
         tr_loss, logging_loss,avg_loss,tr_nb = 0.0, 0.0,0.0,0
         # model,optimizer,data  = accelerator.prepare(model,optimizer,data)

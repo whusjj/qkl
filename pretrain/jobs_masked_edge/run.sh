@@ -10,8 +10,10 @@ gpt_num_head=8
 tokenizer_dir=$1
 token_vocab=$2
 token_merge=$3
+pickle_path='./data/preprocessed/data.pickle'
 saved_model="saved_model"
-
+raw_data_folder='./data/raw_data'
+script_name=$(basename "$0")
 # export TORCH_USE_CUDA_DSA=1
 # CUDA_LAUNCH_BLOCKING=1 
 python main.py \
@@ -38,11 +40,11 @@ python main.py \
     --gnn_model_path 'gnn_model.pth' \
     --transformer_model_path 'transformer_model.pth' \
     --emb_model_path 'nn_embedding_model.pth' \
-    --raw_data_folder './data/raw_data' \
-    --pickle_path './data/preprocessed/data.pickle' \
-    --tokenizer_dir 'tokenizer' \
-    --token_vocab 'esperberto-vocab.json' \
-    --token_merge 'esperberto-merges.txt' 2>&1 | tee  $saved_model/log.txt
+    --raw_data_folder $raw_data_folder \
+    --pickle_path $pickle_path \
+    --tokenizer_dir $tokenizer_dir \
+    --token_vocab $token_vocab \
+    --token_merge $token_merge 2>&1 | tee  jobs_masked_edge/log_${script_name}_${tokenizer_dir}.txt
 
     # --train_file './data/split/train.pickle' \
     # --eval_file './data/split/eval.pickle' \
