@@ -14,7 +14,8 @@ from loguru import logger
 import random
 
 
-
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 class TrainingPipeline:
     def __init__(self,train_args:TrainingArguments,model_args: ModelArguments, tokenizer_args: TokenizerArguments): # 调整batch_size,原来是32,可以改成16，等8的倍数
@@ -78,6 +79,10 @@ class TrainingPipeline:
         data =  self.collate_fn(self.batch_size, dataset)
         model = self.initialize_model(gnn_module, transformer_module, self.gnn_hidden_dim, \
             self.mlm_probability, self.device, self.is_tighted_lm_head, self.masked_node, self.masked_edge)
+        logger.info(f"TrxGNNGPT has {count_parameters(model)} parameters")
+        logger.info(f"gnn_module has {count_parameters(gnn_module)} parameters")
+        logger.info(f"transformer_module has {count_parameters(transformer_module)} parameters")
+        
         model.to(self.device)
         logger.info(f"model is on {model.device}")
         logger.info(f"gnn_module is on {next(gnn_module.parameters()).device}")
