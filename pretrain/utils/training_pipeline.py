@@ -105,6 +105,7 @@ class TrainingPipeline:
         #     0.0
         # }]
         optimizer = torch.optim.AdamW(model.parameters(), lr=self.lr)
+        logger.info("Use AdamW optimizer")
         scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=10000,
                                                 num_training_steps=100)
         checkpoint_last = os.path.join(self.output_dir, 'checkpoint-last')

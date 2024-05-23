@@ -21,7 +21,7 @@ class TrainingArguments:
     gpt_num_head: int = 12
     mlm_probability: float   = 0.15
     sequence: int = 128
-    is_tighted_lm_head: bool  = True
+    is_tighted_lm_head: bool  = False
     masked_node: bool  = False
     masked_edge: bool  = False
     debug: bool = False
