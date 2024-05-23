@@ -3,7 +3,7 @@
 ## Data
 ```
 Options
---raw_data_folder : folder path to the *.pl files
+--raw_data_folder : folder path to the *.pl files, `raw_data` for all all, `raw_data_6w` for 6w trx.
 --pickle_path : save preprocessed graph daa
 ```
 
