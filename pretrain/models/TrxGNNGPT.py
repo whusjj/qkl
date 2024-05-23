@@ -128,6 +128,81 @@ class TrxGNNGPT(nn.Module):
         #logger.info(f'Total memory: {torch.cuda.get_device_properties(self.device).total_memory} Available memory: {torch.cuda.get_device_properties(self.device).total_memory - torch.cuda.memory_allocated(self.device)}')
         return labels, probs
 
+    def from_pretrained(self, model_path):
+        model_dict = torch.load(model_path)
+        self.load_state_dict(model_dict)
+    
+    def get_embedding(self, graph_data):
+        # tmp = graph_data
+        #logger.info(f'Total memory: {torch.cuda.get_device_properties(self.device).total_memory} Available memory: {torch.cuda.get_device_properties(self.device).total_memory - torch.cuda.memory_allocated(self.device)}')
+        # graph_data = graph_data.clone()
+        # rand = random.randint(0,1)
+        # rand = 0
+        device = self.device
+        # 使用 EsperantoDataset 实例调用 tokenizer_node 方法
+        # token_data = self.esperanto_dataset.tokenizer_node(graph_data["x"])
+        labels = None
+        node_data = None
+        edge_data = None
+        # Generate a random integer between 0 and 1
+        # masked_edge = False
+        # masked_node = False
+        # if self.mask_edge and self.mask_node:
+        #     random_integer = torch.randint(2, (1,))
+        #     # Convert the integer to a Boolean value (True or False)
+        #     masked_edge = bool(random_integer)
+        #     masked_node = not masked_edge
+
+        # if masked_node: #rand为1就掩码点否则掩码边
+        #     masked_node_data,labels= self.mask_label(tmp["x"], masked_node, False,graph_data['y'])
+        # else:
+        node_data = graph_data["x"]
+        token_data = node_data.to(device)
+        # print(token_data.shape)
+        embeddings = []
+        for batch in token_data:
+            batch = torch.unsqueeze(batch, dim=0)
+            batch = batch.to(device)
+            output = self.embedding_layer(batch)
+            embeddings.append(output)
+        embeddings = torch.cat(embeddings, dim=0)
+        graph_data["x"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
+        # if masked_edge:
+        #     masked_edge_data,labels= self.mask_label(tmp["edge_attr"],False, masked_edge, graph_data['y'],index = graph_data['edge_index'])
+        # else :
+        edge_data = graph_data["edge_attr"]
+        # token_data = self.esperanto_dataset.tokenizer_node(graph_data["edge_attr"])
+        token_data = edge_data.to(device)
+        embeddings = []
+        for batch in token_data:
+            batch = torch.unsqueeze(batch, dim=0)
+            batch = batch.to(device)
+            output = self.embedding_layer(batch)
+            embeddings.append(output)
+        embeddings = torch.cat(embeddings, dim=0)
+        graph_data["edge_attr"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
+        graph_data['edge_index'] = graph_data['edge_index'].to(device)
+        embeddings = self.gnn_module.forward(graph_data)
+        # if masked_edge:
+        #     edge_embedding = torch.empty(labels.shape[0],embeddings.shape[1])
+        #     for i in range(0,labels.shape[0]):
+        #         edge_embedding[i] = embeddings[tmp["edge_index"][0][i]] + embeddings[tmp["edge_index"][1][i]]
+        #     embeddings = edge_embedding
+        embeddings = embeddings.reshape(labels.shape[0],-1, self.gnn_hidden_dim).to(device)
+        # graph_data = tmp
+        if self.liner_connection_1:
+            embeddings = self.liner_connection_1(embeddings)
+        text_summary = self.transformer_module(embeddings)
+        if self.liner_connection_2:
+            embeddings_proj = self.liner_connection_2(text_summary[1])
+        else:
+            embeddings_proj = text_summary[1]
+        logits = self.lm_head(embeddings_proj)
+        probs = torch.nn.functional.softmax(logits, dim=-1)
+        #logger.info(f'Total memory: {torch.cuda.get_device_properties(self.device).total_memory} Available memory: {torch.cuda.get_device_properties(self.device).total_memory - torch.cuda.memory_allocated(self.device)}')
+        return labels, probs, embeddings_proj, text_summary
+    
+        
     def get_special_tokens_mask(self,value):
         condition = torch.isin(value, torch.tensor(self.special_token_id,dtype=torch.int))
         output_tensor = torch.where(condition, torch.zeros_like(value), torch.ones_like(value))
