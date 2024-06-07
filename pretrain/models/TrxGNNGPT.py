@@ -1,14 +1,13 @@
 
-from models.gnn_module import GNNModule
-from models.transformer_module import TransformerModule
-from models.LSTMEmbedding import LSTMEmbedding
+from .gnn_module import GNNModule
+from .transformer_module import TransformerModule
 import random
 import json
 import torch
 import torch.nn as nn
-from utils.argument import TokenizerArguments
+from ..utils.argument import TokenizerArguments
 from loguru import logger
-
+import pdb
 class TrxGNNGPT(nn.Module):
     def __init__(self, gnn_module: GNNModule, transformer_module: TransformerModule, tokenizaer_args:TokenizerArguments, gnn_hidden_dim = 64,mlm_probability = 0.15, device = 'cpu', is_tighted_lm_head = True, masked_node=False, masked_edge=True):
         super(TrxGNNGPT, self).__init__()
@@ -21,6 +20,7 @@ class TrxGNNGPT(nn.Module):
         self.embedding_layer = torch.nn.Embedding(self.vocab_size, gnn_hidden_dim, padding_idx=self.pad_id)
         self.mlm_probability = mlm_probability
         self.device = device
+        self.number = 0
         self.masked_node = masked_node
         self.masked_edge = masked_edge
         self.special_token_id = [tokenizaer_args.S_TOKEN_ID, tokenizaer_args.PAD_TOKEN_ID, tokenizaer_args.E_TOKEN_ID, tokenizaer_args.UNK_TOKEN_ID] #[0,1,2,3]# 特殊令牌id
@@ -133,30 +133,12 @@ class TrxGNNGPT(nn.Module):
         self.load_state_dict(model_dict)
     
     def get_embedding(self, graph_data):
-        # tmp = graph_data
-        #logger.info(f'Total memory: {torch.cuda.get_device_properties(self.device).total_memory} Available memory: {torch.cuda.get_device_properties(self.device).total_memory - torch.cuda.memory_allocated(self.device)}')
-        # graph_data = graph_data.clone()
-        # rand = random.randint(0,1)
-        # rand = 0
         device = self.device
-        # 使用 EsperantoDataset 实例调用 tokenizer_node 方法
-        # token_data = self.esperanto_dataset.tokenizer_node(graph_data["x"])
         labels = None
         node_data = None
         edge_data = None
-        # Generate a random integer between 0 and 1
-        # masked_edge = False
-        # masked_node = False
-        # if self.mask_edge and self.mask_node:
-        #     random_integer = torch.randint(2, (1,))
-        #     # Convert the integer to a Boolean value (True or False)
-        #     masked_edge = bool(random_integer)
-        #     masked_node = not masked_edge
-
-        # if masked_node: #rand为1就掩码点否则掩码边
-        #     masked_node_data,labels= self.mask_label(tmp["x"], masked_node, False,graph_data['y'])
-        # else:
         node_data = graph_data["x"]
+        tmp = graph_data.clone()
         token_data = node_data.to(device)
         # print(token_data.shape)
         embeddings = []
@@ -166,7 +148,7 @@ class TrxGNNGPT(nn.Module):
             output = self.embedding_layer(batch)
             embeddings.append(output)
         embeddings = torch.cat(embeddings, dim=0)
-        graph_data["x"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
+        tmp["x"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
         # if masked_edge:
         #     masked_edge_data,labels= self.mask_label(tmp["edge_attr"],False, masked_edge, graph_data['y'],index = graph_data['edge_index'])
         # else :
@@ -180,15 +162,10 @@ class TrxGNNGPT(nn.Module):
             output = self.embedding_layer(batch)
             embeddings.append(output)
         embeddings = torch.cat(embeddings, dim=0)
-        graph_data["edge_attr"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
-        graph_data['edge_index'] = graph_data['edge_index'].to(device)
-        embeddings = self.gnn_module.forward(graph_data)
-        # if masked_edge:
-        #     edge_embedding = torch.empty(labels.shape[0],embeddings.shape[1])
-        #     for i in range(0,labels.shape[0]):
-        #         edge_embedding[i] = embeddings[tmp["edge_index"][0][i]] + embeddings[tmp["edge_index"][1][i]]
-        #     embeddings = edge_embedding
-        embeddings = embeddings.reshape(labels.shape[0],-1, self.gnn_hidden_dim).to(device)
+        tmp["edge_attr"] = embeddings.reshape(embeddings.shape[0],-1).to(device)
+        tmp['edge_index'] = graph_data['edge_index'].to(device)
+        embeddings = self.gnn_module.forward(tmp)   
+        embeddings = embeddings.reshape(embeddings.shape[0],-1, self.gnn_hidden_dim).to(device)
         # graph_data = tmp
         if self.liner_connection_1:
             embeddings = self.liner_connection_1(embeddings)

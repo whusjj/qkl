@@ -4,7 +4,7 @@ from torch import nn
 from transformers import GPT2Model, GPT2Config
 #from transformers import RobertaConfig, RobertaModel
 import torch_geometric.nn as gnn
-
+import pdb
 class TransformerModule(nn.Module):
     def __init__(self, gpt_hidden_dim, n_head=12):
         """

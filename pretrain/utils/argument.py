@@ -25,6 +25,7 @@ class TrainingArguments:
     masked_node: bool  = False
     masked_edge: bool  = False
     debug: bool = False
+    hidden_dropout_prob :float = 0.5
     
 @dataclass
 class ModelArguments:
@@ -32,6 +33,7 @@ class ModelArguments:
     gnn_model_path: str   = 'gnn_model.pth'
     transformer_model_path: str   = 'transformer_model.pth' 
     emb_model_path: str   = 'nn_embedding_model.pth'
+    model_path: str  = '../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000/epoch_0/model.pth'
     
 
 @dataclass

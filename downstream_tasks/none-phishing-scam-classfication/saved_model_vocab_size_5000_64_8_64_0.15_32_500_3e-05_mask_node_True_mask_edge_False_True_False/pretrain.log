@@ -1,0 +1,630 @@
+2024-06-02 19:19:51.384 | INFO     | __main__:<module>:138 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 19:19:51.385 | INFO     | __main__:<module>:139 - Data arguments: DataArguments(raw_data_folder='./data/raw_data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 19:19:51.385 | INFO     | __main__:<module>:140 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 19:19:51.385 | INFO     | __main__:<module>:141 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 19:19:51.385 | INFO     | __main__:<module>:143 - Setting seeds for reproducibility Seed 42
+2024-06-02 19:19:51.434 | INFO     | __main__:<module>:153 - Device: cuda:0
+2024-06-02 19:19:51.438 | INFO     | pretrain.utils.data_preprocessor:__init__:70 - Loading data from raw data folder
+2024-06-02 19:28:29.990 | INFO     | __main__:<module>:138 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 19:28:29.990 | INFO     | __main__:<module>:139 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 19:28:29.990 | INFO     | __main__:<module>:140 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 19:28:29.990 | INFO     | __main__:<module>:141 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 19:28:29.991 | INFO     | __main__:<module>:143 - Setting seeds for reproducibility Seed 42
+2024-06-02 19:28:30.062 | INFO     | __main__:<module>:153 - Device: cuda:0
+2024-06-02 19:28:30.064 | INFO     | pretrain.utils.data_preprocessor:__init__:70 - Loading data from raw data folder
+2024-06-02 19:28:35.091 | INFO     | pretrain.utils.data_preprocessor:__init__:87 - Saving data to cache ./raw_cached_data.pt Num .pt file 4379
+2024-06-02 19:29:44.110 | INFO     | pretrain.utils.training_pipeline:load:197 - TrxGNNGPT has 675372485 parameters
+2024-06-02 19:29:44.111 | INFO     | pretrain.utils.training_pipeline:load:198 - gnn_module has 671170565 parameters
+2024-06-02 19:29:44.112 | INFO     | pretrain.utils.training_pipeline:load:199 - transformer_module has 3881920 parameters
+2024-06-02 19:29:45.848 | INFO     | pretrain.utils.training_pipeline:load:201 - model is on cuda:0
+2024-06-02 19:29:45.849 | INFO     | pretrain.utils.training_pipeline:load:202 - gnn_module is on cuda:0
+2024-06-02 19:29:45.849 | INFO     | pretrain.utils.training_pipeline:load:203 - transformer_module is on cuda:0
+2024-06-02 19:36:39.588 | INFO     | __main__:<module>:138 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 19:36:39.588 | INFO     | __main__:<module>:139 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 19:36:39.588 | INFO     | __main__:<module>:140 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 19:36:39.589 | INFO     | __main__:<module>:141 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 19:36:39.589 | INFO     | __main__:<module>:143 - Setting seeds for reproducibility Seed 42
+2024-06-02 19:36:39.644 | INFO     | __main__:<module>:153 - Device: cuda:0
+2024-06-02 19:36:39.646 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 19:36:53.392 | INFO     | pretrain.utils.training_pipeline:load:197 - TrxGNNGPT has 675372485 parameters
+2024-06-02 19:36:53.392 | INFO     | pretrain.utils.training_pipeline:load:198 - gnn_module has 671170565 parameters
+2024-06-02 19:36:53.393 | INFO     | pretrain.utils.training_pipeline:load:199 - transformer_module has 3881920 parameters
+2024-06-02 19:36:59.072 | INFO     | pretrain.utils.training_pipeline:load:201 - model is on cuda:0
+2024-06-02 19:36:59.072 | INFO     | pretrain.utils.training_pipeline:load:202 - gnn_module is on cuda:0
+2024-06-02 19:36:59.072 | INFO     | pretrain.utils.training_pipeline:load:203 - transformer_module is on cuda:0
+2024-06-02 19:43:50.760 | INFO     | __main__:<module>:139 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 19:43:50.760 | INFO     | __main__:<module>:140 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 19:43:50.761 | INFO     | __main__:<module>:141 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 19:43:50.761 | INFO     | __main__:<module>:142 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 19:43:50.761 | INFO     | __main__:<module>:144 - Setting seeds for reproducibility Seed 42
+2024-06-02 19:43:50.812 | INFO     | __main__:<module>:154 - Device: cuda:0
+2024-06-02 19:43:50.816 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 20:12:05.421 | INFO     | __main__:<module>:167 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 20:12:05.421 | INFO     | __main__:<module>:168 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 20:12:05.422 | INFO     | __main__:<module>:169 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 20:12:05.422 | INFO     | __main__:<module>:170 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 20:12:05.422 | INFO     | __main__:<module>:172 - Setting seeds for reproducibility Seed 42
+2024-06-02 20:12:05.480 | INFO     | __main__:<module>:182 - Device: cuda:0
+2024-06-02 20:12:05.482 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 20:14:31.009 | INFO     | __main__:<module>:167 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 20:14:31.009 | INFO     | __main__:<module>:168 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 20:14:31.009 | INFO     | __main__:<module>:169 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 20:14:31.009 | INFO     | __main__:<module>:170 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 20:14:31.010 | INFO     | __main__:<module>:172 - Setting seeds for reproducibility Seed 42
+2024-06-02 20:14:31.071 | INFO     | __main__:<module>:182 - Device: cuda:0
+2024-06-02 20:14:31.073 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 20:15:16.645 | INFO     | pretrain.utils.training_pipeline:load:196 - TrxGNNGPT has 675372485 parameters
+2024-06-02 20:15:16.645 | INFO     | pretrain.utils.training_pipeline:load:197 - gnn_module has 671170565 parameters
+2024-06-02 20:15:16.646 | INFO     | pretrain.utils.training_pipeline:load:198 - transformer_module has 3881920 parameters
+2024-06-02 20:15:25.159 | INFO     | pretrain.utils.training_pipeline:load:200 - model is on cuda:0
+2024-06-02 20:15:25.160 | INFO     | pretrain.utils.training_pipeline:load:201 - gnn_module is on cuda:0
+2024-06-02 20:15:25.160 | INFO     | pretrain.utils.training_pipeline:load:202 - transformer_module is on cuda:0
+2024-06-02 21:34:20.479 | INFO     | __main__:<module>:168 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 21:34:20.479 | INFO     | __main__:<module>:169 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 21:34:20.479 | INFO     | __main__:<module>:170 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 21:34:20.479 | INFO     | __main__:<module>:171 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 21:34:20.480 | INFO     | __main__:<module>:173 - Setting seeds for reproducibility Seed 42
+2024-06-02 21:34:20.529 | INFO     | __main__:<module>:183 - Device: cuda:0
+2024-06-02 21:34:20.534 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 21:34:33.673 | INFO     | pretrain.utils.training_pipeline:load:196 - TrxGNNGPT has 675372485 parameters
+2024-06-02 21:34:33.673 | INFO     | pretrain.utils.training_pipeline:load:197 - gnn_module has 671170565 parameters
+2024-06-02 21:34:33.674 | INFO     | pretrain.utils.training_pipeline:load:198 - transformer_module has 3881920 parameters
+2024-06-02 21:34:39.653 | INFO     | pretrain.utils.training_pipeline:load:200 - model is on cuda:0
+2024-06-02 21:34:39.653 | INFO     | pretrain.utils.training_pipeline:load:201 - gnn_module is on cuda:0
+2024-06-02 21:34:39.653 | INFO     | pretrain.utils.training_pipeline:load:202 - transformer_module is on cuda:0
+2024-06-02 22:02:53.894 | INFO     | __main__:<module>:168 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 22:02:53.894 | INFO     | __main__:<module>:169 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 22:02:53.894 | INFO     | __main__:<module>:170 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 22:02:53.894 | INFO     | __main__:<module>:171 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 22:02:53.895 | INFO     | __main__:<module>:173 - Setting seeds for reproducibility Seed 42
+2024-06-02 22:02:53.947 | INFO     | __main__:<module>:183 - Device: cuda:0
+2024-06-02 22:02:53.950 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 22:03:09.304 | INFO     | pretrain.utils.training_pipeline:load:196 - TrxGNNGPT has 675372485 parameters
+2024-06-02 22:03:09.305 | INFO     | pretrain.utils.training_pipeline:load:197 - gnn_module has 671170565 parameters
+2024-06-02 22:03:09.306 | INFO     | pretrain.utils.training_pipeline:load:198 - transformer_module has 3881920 parameters
+2024-06-02 22:03:16.604 | INFO     | pretrain.utils.training_pipeline:load:200 - model is on cuda:0
+2024-06-02 22:03:16.605 | INFO     | pretrain.utils.training_pipeline:load:201 - gnn_module is on cuda:0
+2024-06-02 22:03:16.605 | INFO     | pretrain.utils.training_pipeline:load:202 - transformer_module is on cuda:0
+2024-06-02 22:09:12.652 | INFO     | __main__:<module>:168 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False)
+2024-06-02 22:09:12.652 | INFO     | __main__:<module>:169 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 22:09:12.653 | INFO     | __main__:<module>:170 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 22:09:12.653 | INFO     | __main__:<module>:171 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 22:09:12.653 | INFO     | __main__:<module>:173 - Setting seeds for reproducibility Seed 42
+2024-06-02 22:09:12.699 | INFO     | __main__:<module>:183 - Device: cuda:0
+2024-06-02 22:09:12.701 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 22:09:26.855 | INFO     | pretrain.utils.training_pipeline:load:196 - TrxGNNGPT has 675372485 parameters
+2024-06-02 22:09:26.855 | INFO     | pretrain.utils.training_pipeline:load:197 - gnn_module has 671170565 parameters
+2024-06-02 22:09:26.856 | INFO     | pretrain.utils.training_pipeline:load:198 - transformer_module has 3881920 parameters
+2024-06-02 22:09:32.381 | INFO     | pretrain.utils.training_pipeline:load:200 - model is on cuda:0
+2024-06-02 22:09:32.382 | INFO     | pretrain.utils.training_pipeline:load:201 - gnn_module is on cuda:0
+2024-06-02 22:09:32.382 | INFO     | pretrain.utils.training_pipeline:load:202 - transformer_module is on cuda:0
+2024-06-02 22:11:07.801 | INFO     | __main__:<module>:168 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-02 22:11:07.802 | INFO     | __main__:<module>:169 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 22:11:07.802 | INFO     | __main__:<module>:170 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 22:11:07.802 | INFO     | __main__:<module>:171 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 22:11:07.802 | INFO     | __main__:<module>:173 - Setting seeds for reproducibility Seed 42
+2024-06-02 22:11:07.855 | INFO     | __main__:<module>:183 - Device: cuda:0
+2024-06-02 22:11:07.857 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 22:11:22.068 | INFO     | pretrain.utils.training_pipeline:load:196 - TrxGNNGPT has 675372485 parameters
+2024-06-02 22:11:22.068 | INFO     | pretrain.utils.training_pipeline:load:197 - gnn_module has 671170565 parameters
+2024-06-02 22:11:22.069 | INFO     | pretrain.utils.training_pipeline:load:198 - transformer_module has 3881920 parameters
+2024-06-02 22:11:28.081 | INFO     | pretrain.utils.training_pipeline:load:200 - model is on cuda:0
+2024-06-02 22:11:28.081 | INFO     | pretrain.utils.training_pipeline:load:201 - gnn_module is on cuda:0
+2024-06-02 22:11:28.082 | INFO     | pretrain.utils.training_pipeline:load:202 - transformer_module is on cuda:0
+2024-06-02 23:50:59.481 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-02 23:50:59.481 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 23:50:59.481 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 23:50:59.481 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 23:50:59.481 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-02 23:50:59.541 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-02 23:50:59.543 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 23:51:13.797 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-02 23:51:13.798 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-02 23:51:13.799 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-02 23:51:19.624 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-02 23:51:19.625 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-02 23:51:19.625 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-02 23:53:24.035 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-02 23:53:24.035 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 23:53:24.036 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 23:53:24.036 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 23:53:24.036 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-02 23:53:24.088 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-02 23:53:24.091 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 23:53:38.477 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-02 23:53:38.477 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-02 23:53:38.478 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-02 23:53:44.943 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-02 23:53:44.944 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-02 23:53:44.944 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-02 23:53:48.041 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-02 23:53:48.044 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-02 23:55:36.561 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-02 23:55:36.561 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 23:55:36.561 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 23:55:36.562 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 23:55:36.562 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-02 23:55:36.606 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-02 23:55:36.608 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 23:55:51.172 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-02 23:55:51.173 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-02 23:55:51.173 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-02 23:55:56.872 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-02 23:55:56.873 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-02 23:55:56.873 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-02 23:55:59.866 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-02 23:55:59.867 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-02 23:58:24.280 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-02 23:58:24.280 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-02 23:58:24.280 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-02 23:58:24.281 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-02 23:58:24.281 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-02 23:58:24.334 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-02 23:58:24.338 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-02 23:58:38.861 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-02 23:58:38.861 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-02 23:58:38.862 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-02 23:58:45.042 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-02 23:58:45.044 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-02 23:58:45.044 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-02 23:58:48.202 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-02 23:58:48.203 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:02:20.675 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:02:20.675 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:02:20.675 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:02:20.675 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:02:20.675 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:02:20.735 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:02:20.737 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:02:33.221 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:02:33.222 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:02:33.223 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:02:38.433 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:02:38.433 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:02:38.434 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:02:41.463 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:02:41.465 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:03:02.355 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:03:02.355 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:03:02.356 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:03:02.356 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:03:02.356 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:03:02.402 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:03:02.404 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:03:15.085 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:03:15.086 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:03:15.086 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:03:20.702 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:03:20.703 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:03:20.703 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:03:23.786 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:03:23.788 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:05:45.577 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:05:45.577 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:05:45.577 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:05:45.577 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:05:45.577 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:05:45.626 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:05:45.629 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:05:59.408 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:05:59.408 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:05:59.409 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:06:05.871 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:06:05.872 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:06:05.872 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:06:09.236 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:06:09.238 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:06:41.010 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:06:41.011 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:06:41.011 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:06:41.011 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:06:41.011 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:06:41.066 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:06:41.069 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:06:56.602 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:06:56.603 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:06:56.603 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:07:03.608 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:07:03.609 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:07:03.609 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:07:07.023 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:07:07.025 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:08:25.484 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:08:25.485 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:08:25.485 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:08:25.485 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:08:25.485 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:08:25.545 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:08:25.547 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:08:40.253 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:08:40.253 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:08:40.254 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:08:46.895 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:08:46.896 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:08:46.896 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:08:50.008 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:08:50.010 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:10:35.848 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:10:35.849 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:10:35.849 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:10:35.849 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:10:35.849 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:10:35.911 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:10:35.913 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:10:51.340 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:10:51.341 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:10:51.342 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:10:58.208 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:10:58.208 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:10:58.209 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:11:01.367 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:11:01.369 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:13:54.149 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:13:54.150 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:13:54.150 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:13:54.150 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:13:54.150 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:13:54.200 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:13:54.202 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:16:39.187 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:16:39.188 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:16:39.188 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:16:39.188 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:16:39.188 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:16:39.245 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:16:39.247 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:16:54.281 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:16:54.281 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:16:54.282 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:17:01.497 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:17:01.498 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:17:01.498 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:17:05.150 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:17:05.152 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 00:55:48.700 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 00:55:48.700 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 00:55:48.700 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 00:55:48.700 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 00:55:48.701 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 00:55:48.753 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 00:55:48.755 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 00:56:02.321 | INFO     | pretrain.utils.training_pipeline:load:282 - TrxGNNGPT has 675372485 parameters
+2024-06-03 00:56:02.322 | INFO     | pretrain.utils.training_pipeline:load:283 - gnn_module has 671170565 parameters
+2024-06-03 00:56:02.322 | INFO     | pretrain.utils.training_pipeline:load:284 - transformer_module has 3881920 parameters
+2024-06-03 00:56:07.722 | INFO     | pretrain.utils.training_pipeline:load:286 - model is on cuda:0
+2024-06-03 00:56:07.722 | INFO     | pretrain.utils.training_pipeline:load:287 - gnn_module is on cuda:0
+2024-06-03 00:56:07.723 | INFO     | pretrain.utils.training_pipeline:load:288 - transformer_module is on cuda:0
+2024-06-03 00:56:10.845 | INFO     | pretrain.utils.training_pipeline:train_model_classification:212 - Use AdamW optimizer
+2024-06-03 00:56:10.846 | INFO     | pretrain.utils.training_pipeline:train_model_classification:235 - epoch: 0
+2024-06-03 01:01:54.225 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-03 01:01:54.226 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-03 01:01:54.226 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-03 01:01:54.226 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-03 01:01:54.227 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-03 01:01:54.297 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-03 01:01:54.299 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-03 01:02:09.491 | INFO     | pretrain.utils.training_pipeline:load:283 - TrxGNNGPT has 675372485 parameters
+2024-06-03 01:02:09.491 | INFO     | pretrain.utils.training_pipeline:load:284 - gnn_module has 671170565 parameters
+2024-06-03 01:02:09.492 | INFO     | pretrain.utils.training_pipeline:load:285 - transformer_module has 3881920 parameters
+2024-06-03 01:02:16.838 | INFO     | pretrain.utils.training_pipeline:load:287 - model is on cuda:0
+2024-06-03 01:02:16.839 | INFO     | pretrain.utils.training_pipeline:load:288 - gnn_module is on cuda:0
+2024-06-03 01:02:16.840 | INFO     | pretrain.utils.training_pipeline:load:289 - transformer_module is on cuda:0
+2024-06-03 01:02:20.105 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-03 01:02:20.107 | INFO     | pretrain.utils.training_pipeline:train_model_classification:236 - epoch: 0
+2024-06-04 22:44:28.887 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 22:44:28.889 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 22:44:28.889 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 22:44:28.889 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 22:44:28.889 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 22:44:28.956 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 22:44:28.960 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 22:44:43.568 | INFO     | pretrain.utils.training_pipeline:load:284 - TrxGNNGPT has 675372485 parameters
+2024-06-04 22:44:43.568 | INFO     | pretrain.utils.training_pipeline:load:285 - gnn_module has 671170565 parameters
+2024-06-04 22:44:43.569 | INFO     | pretrain.utils.training_pipeline:load:286 - transformer_module has 3881920 parameters
+2024-06-04 22:44:52.092 | INFO     | pretrain.utils.training_pipeline:load:288 - model is on cuda:0
+2024-06-04 22:44:52.093 | INFO     | pretrain.utils.training_pipeline:load:289 - gnn_module is on cuda:0
+2024-06-04 22:44:52.093 | INFO     | pretrain.utils.training_pipeline:load:290 - transformer_module is on cuda:0
+2024-06-04 22:44:55.504 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 22:44:55.506 | INFO     | pretrain.utils.training_pipeline:train_model_classification:236 - epoch: 0
+2024-06-04 23:02:37.171 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:02:37.171 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:02:37.171 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:02:37.171 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:02:37.172 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:02:37.225 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:02:37.227 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:02:50.892 | INFO     | pretrain.utils.training_pipeline:load:292 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:02:50.893 | INFO     | pretrain.utils.training_pipeline:load:293 - gnn_module has 671170565 parameters
+2024-06-04 23:02:50.893 | INFO     | pretrain.utils.training_pipeline:load:294 - transformer_module has 3881920 parameters
+2024-06-04 23:02:56.855 | INFO     | pretrain.utils.training_pipeline:load:296 - model is on cuda:0
+2024-06-04 23:02:56.856 | INFO     | pretrain.utils.training_pipeline:load:297 - gnn_module is on cuda:0
+2024-06-04 23:02:56.856 | INFO     | pretrain.utils.training_pipeline:load:298 - transformer_module is on cuda:0
+2024-06-04 23:02:59.865 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:02:59.866 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:04:40.885 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:04:40.886 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:04:40.886 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:04:40.886 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:04:40.886 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:04:40.941 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:04:40.943 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:04:55.177 | INFO     | pretrain.utils.training_pipeline:load:293 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:04:55.177 | INFO     | pretrain.utils.training_pipeline:load:294 - gnn_module has 671170565 parameters
+2024-06-04 23:04:55.178 | INFO     | pretrain.utils.training_pipeline:load:295 - transformer_module has 3881920 parameters
+2024-06-04 23:05:01.856 | INFO     | pretrain.utils.training_pipeline:load:297 - model is on cuda:0
+2024-06-04 23:05:01.856 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module is on cuda:0
+2024-06-04 23:05:01.857 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module is on cuda:0
+2024-06-04 23:05:04.980 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:05:04.981 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:09:39.625 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:09:39.626 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:09:39.626 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:09:39.626 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:09:39.626 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:09:39.676 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:09:39.679 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:09:52.548 | INFO     | pretrain.utils.training_pipeline:load:293 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:09:52.549 | INFO     | pretrain.utils.training_pipeline:load:294 - gnn_module has 671170565 parameters
+2024-06-04 23:09:52.549 | INFO     | pretrain.utils.training_pipeline:load:295 - transformer_module has 3881920 parameters
+2024-06-04 23:09:59.373 | INFO     | pretrain.utils.training_pipeline:load:297 - model is on cuda:0
+2024-06-04 23:09:59.374 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module is on cuda:0
+2024-06-04 23:09:59.374 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module is on cuda:0
+2024-06-04 23:10:02.027 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:10:02.029 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:10:19.791 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:10:19.792 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:10:19.792 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:10:19.792 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:10:19.792 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:10:19.876 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:10:19.878 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:10:32.624 | INFO     | pretrain.utils.training_pipeline:load:293 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:10:32.625 | INFO     | pretrain.utils.training_pipeline:load:294 - gnn_module has 671170565 parameters
+2024-06-04 23:10:32.625 | INFO     | pretrain.utils.training_pipeline:load:295 - transformer_module has 3881920 parameters
+2024-06-04 23:10:39.268 | INFO     | pretrain.utils.training_pipeline:load:297 - model is on cuda:0
+2024-06-04 23:10:39.269 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module is on cuda:0
+2024-06-04 23:10:39.269 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module is on cuda:0
+2024-06-04 23:10:41.958 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:10:41.959 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:11:08.277 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:11:08.278 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:11:08.278 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:11:08.278 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:11:08.278 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:11:08.325 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:11:08.328 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:11:21.257 | INFO     | pretrain.utils.training_pipeline:load:293 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:11:21.258 | INFO     | pretrain.utils.training_pipeline:load:294 - gnn_module has 671170565 parameters
+2024-06-04 23:11:21.259 | INFO     | pretrain.utils.training_pipeline:load:295 - transformer_module has 3881920 parameters
+2024-06-04 23:11:28.617 | INFO     | pretrain.utils.training_pipeline:load:297 - model is on cuda:0
+2024-06-04 23:11:28.618 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module is on cuda:0
+2024-06-04 23:11:28.618 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module is on cuda:0
+2024-06-04 23:11:31.426 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:11:31.427 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:12:25.662 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:12:25.662 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:12:25.662 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:12:25.662 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:12:25.663 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:12:25.708 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:12:25.711 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:12:39.887 | INFO     | pretrain.utils.training_pipeline:load:293 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:12:39.888 | INFO     | pretrain.utils.training_pipeline:load:294 - gnn_module has 671170565 parameters
+2024-06-04 23:12:39.888 | INFO     | pretrain.utils.training_pipeline:load:295 - transformer_module has 3881920 parameters
+2024-06-04 23:12:46.202 | INFO     | pretrain.utils.training_pipeline:load:297 - model is on cuda:0
+2024-06-04 23:12:46.203 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module is on cuda:0
+2024-06-04 23:12:46.203 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module is on cuda:0
+2024-06-04 23:12:49.409 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:12:49.410 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:13:44.558 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:13:44.559 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:13:44.559 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:13:44.559 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:13:44.559 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:13:44.649 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:13:44.652 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:13:57.330 | INFO     | pretrain.utils.training_pipeline:load:292 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:13:57.331 | INFO     | pretrain.utils.training_pipeline:load:293 - gnn_module has 671170565 parameters
+2024-06-04 23:13:57.331 | INFO     | pretrain.utils.training_pipeline:load:294 - transformer_module has 3881920 parameters
+2024-06-04 23:14:04.393 | INFO     | pretrain.utils.training_pipeline:load:296 - model is on cuda:0
+2024-06-04 23:14:04.394 | INFO     | pretrain.utils.training_pipeline:load:297 - gnn_module is on cuda:0
+2024-06-04 23:14:04.394 | INFO     | pretrain.utils.training_pipeline:load:298 - transformer_module is on cuda:0
+2024-06-04 23:14:07.010 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:14:07.012 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:14:53.403 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-04 23:15:39.005 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784851
+2024-06-04 23:16:15.975 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.96435546875
+2024-06-04 23:29:35.641 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:29:35.641 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:29:35.642 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:29:35.642 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:29:35.642 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:29:35.709 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:29:35.711 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:29:48.585 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:29:48.586 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-04 23:29:48.586 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-04 23:29:55.041 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-04 23:29:55.042 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-04 23:29:55.042 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-04 23:29:57.766 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:29:57.767 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:30:44.496 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-04 23:31:30.153 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784855
+2024-06-04 23:32:07.597 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.959228515625
+2024-06-04 23:34:18.736 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:34:18.736 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:34:18.737 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:34:18.737 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:34:18.737 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:34:18.852 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:34:18.855 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:34:32.250 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:34:32.250 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-04 23:34:32.251 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-04 23:34:39.032 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-04 23:34:39.032 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-04 23:34:39.032 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-04 23:34:41.829 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:34:41.830 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:35:28.388 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-04 23:36:13.716 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784855
+2024-06-04 23:36:51.413 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.876953125
+2024-06-04 23:41:17.600 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:41:17.601 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:41:17.601 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:41:17.601 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:41:17.601 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:41:17.662 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:41:17.664 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:41:30.986 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:41:30.986 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-04 23:41:30.987 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-04 23:41:39.989 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-04 23:41:39.989 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-04 23:41:39.990 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-04 23:41:43.203 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:41:43.205 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:42:31.729 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-04 23:43:19.146 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784855
+2024-06-04 23:43:57.191 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.88134765625
+2024-06-04 23:44:40.292 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:44:40.293 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:44:40.293 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:44:40.293 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:44:40.293 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:44:40.477 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:44:40.480 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:44:54.758 | INFO     | pretrain.utils.training_pipeline:load:298 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:44:54.759 | INFO     | pretrain.utils.training_pipeline:load:299 - gnn_module has 671170565 parameters
+2024-06-04 23:44:54.759 | INFO     | pretrain.utils.training_pipeline:load:300 - transformer_module has 3881920 parameters
+2024-06-04 23:45:00.842 | INFO     | pretrain.utils.training_pipeline:load:302 - model is on cuda:0
+2024-06-04 23:45:00.843 | INFO     | pretrain.utils.training_pipeline:load:303 - gnn_module is on cuda:0
+2024-06-04 23:45:00.843 | INFO     | pretrain.utils.training_pipeline:load:304 - transformer_module is on cuda:0
+2024-06-04 23:45:03.710 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:45:03.711 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:45:51.740 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-04 23:46:38.412 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784856
+2024-06-04 23:47:16.054 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.89453125
+2024-06-04 23:50:00.300 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-04 23:50:00.301 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-04 23:50:00.301 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-04 23:50:00.301 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-04 23:50:00.301 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-04 23:50:00.395 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-04 23:50:00.397 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-04 23:50:13.533 | INFO     | pretrain.utils.training_pipeline:load:298 - TrxGNNGPT has 675372485 parameters
+2024-06-04 23:50:13.533 | INFO     | pretrain.utils.training_pipeline:load:299 - gnn_module has 671170565 parameters
+2024-06-04 23:50:13.534 | INFO     | pretrain.utils.training_pipeline:load:300 - transformer_module has 3881920 parameters
+2024-06-04 23:50:19.836 | INFO     | pretrain.utils.training_pipeline:load:302 - model is on cuda:0
+2024-06-04 23:50:19.836 | INFO     | pretrain.utils.training_pipeline:load:303 - gnn_module is on cuda:0
+2024-06-04 23:50:19.836 | INFO     | pretrain.utils.training_pipeline:load:304 - transformer_module is on cuda:0
+2024-06-04 23:50:22.637 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-04 23:50:22.639 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-04 23:51:09.253 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-04 23:51:53.783 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784855
+2024-06-04 23:52:31.218 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.883544921875
+2024-06-05 00:02:50.549 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-05 00:02:50.549 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-05 00:02:50.550 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-05 00:02:50.550 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-05 00:02:50.550 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-05 00:02:50.606 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-05 00:02:50.609 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-05 00:03:03.619 | INFO     | pretrain.utils.training_pipeline:load:301 - TrxGNNGPT has 675372485 parameters
+2024-06-05 00:03:03.619 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module has 671170565 parameters
+2024-06-05 00:03:03.620 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module has 3881920 parameters
+2024-06-05 00:03:09.450 | INFO     | pretrain.utils.training_pipeline:load:305 - model is on cuda:0
+2024-06-05 00:03:09.450 | INFO     | pretrain.utils.training_pipeline:load:306 - gnn_module is on cuda:0
+2024-06-05 00:03:09.450 | INFO     | pretrain.utils.training_pipeline:load:307 - transformer_module is on cuda:0
+2024-06-05 00:03:12.130 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-05 00:03:12.132 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-05 00:03:58.100 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-05 00:04:43.344 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784854
+2024-06-05 00:05:21.827 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.883056640625
+2024-06-05 00:05:53.276 | INFO     | pretrain.utils.training_pipeline:train_model_classification:275 - acc is 0.0, macro-F1 is 0.0
+2024-06-05 00:07:06.918 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-05 00:07:06.919 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-05 00:07:06.919 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-05 00:07:06.919 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-05 00:07:06.919 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-05 00:07:06.976 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-05 00:07:06.978 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-05 00:07:19.912 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-05 00:07:19.912 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-05 00:07:19.913 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-05 00:07:25.992 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-05 00:07:25.992 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-05 00:07:25.993 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-05 00:07:28.602 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-05 00:07:28.603 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-05 00:08:14.798 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-05 00:08:59.963 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784855
+2024-06-05 00:09:37.838 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.95703125
+2024-06-05 00:09:53.587 | INFO     | pretrain.utils.training_pipeline:train_model_classification:288 - Saving model at the end of epoch 0, saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False/0
+2024-06-05 00:09:53.588 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 1
+2024-06-05 00:11:06.712 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-05 00:11:06.713 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-05 00:11:06.713 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-05 00:11:06.713 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-05 00:11:06.713 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-05 00:11:06.782 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-05 00:11:06.785 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-05 00:11:19.901 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-05 00:11:19.901 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-05 00:11:19.902 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-05 00:11:25.860 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-05 00:11:25.860 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-05 00:11:25.860 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-05 00:11:28.622 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-05 00:11:28.624 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-05 00:12:41.244 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-05 00:12:41.245 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-05 00:12:41.245 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-05 00:12:41.245 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-05 00:12:41.245 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-05 00:12:41.315 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-05 00:12:41.317 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-05 00:12:54.531 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-05 00:12:54.531 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-05 00:12:54.532 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-05 00:13:01.251 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-05 00:13:01.252 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-05 00:13:01.252 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-05 00:13:03.995 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-05 00:13:03.996 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-05 00:13:40.312 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-05 00:13:40.313 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-05 00:13:40.313 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-05 00:13:40.313 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-05 00:13:40.313 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-05 00:13:40.371 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-05 00:13:40.373 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-05 00:13:53.498 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-05 00:13:53.498 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-05 00:13:53.499 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-05 00:13:59.715 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-05 00:13:59.716 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-05 00:13:59.717 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-05 00:14:02.476 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-05 00:14:02.477 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0
+2024-06-05 00:14:49.063 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 200 loss: 0.588979
+2024-06-05 00:15:34.310 | INFO     | pretrain.utils.training_pipeline:train_model_classification:266 -  steps: 300 loss: 0.784855
+2024-06-05 00:16:13.177 | INFO     | pretrain.utils.training_pipeline:train_model_classification:272 - Epoch 1/500, total Loss: 3312.957763671875
+2024-06-05 00:16:29.346 | INFO     | pretrain.utils.training_pipeline:train_model_classification:288 - Saving model at the end of epoch 0, saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False/0
+2024-06-05 00:16:29.347 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 1
+2024-06-05 00:18:02.784 | INFO     | __main__:<module>:177 - Training arguments: TrainingArguments(learning_rate=3e-05, do_train=True, do_eval=True, seed=42, epochs=500, batch_size=32, fp16=False, device='cuda:0', start_step=100, gradient_accumulation_steps=10, max_grad_norm=5, logging_steps=1000, save_steps=1000, gnn_hidden_dim=64, gpt_hidden_dim=64, gpt_num_head=8, mlm_probability=0.15, sequence=128, is_tighted_lm_head=True, masked_node=True, masked_edge=False, debug=False, hidden_dropout_prob=0.5)
+2024-06-05 00:18:02.785 | INFO     | __main__:<module>:178 - Data arguments: DataArguments(raw_data_folder='./data', pickle_path='processed_vocab_size_5000', train_file='./data/split/train.pickle', eval_file='./data/split/eval.pickle', test_file='./data/split/test.pickle')
+2024-06-05 00:18:02.785 | INFO     | __main__:<module>:179 - Tokenizer arguments: TokenizerArguments(tokenizer_dir='tokenizer', token_vocab='tokenizer/esperberto-vocab.json', token_merge='tokenizer/esperberto-merges.txt', vocab_size=None, S_TOKEN_ID=0, PAD_TOKEN_ID=1, E_TOKEN_ID=2, UNK_TOKEN_ID=3, MASK_TOKEN_ID=4)
+2024-06-05 00:18:02.785 | INFO     | __main__:<module>:180 - Model arguments: ModelArguments(output_dir='saved_model_vocab_size_5000_64_8_64_0.15_32_500_3e-05_mask_node_True_mask_edge_False_True_False', gnn_model_path='gnn_model.pth', transformer_model_path='transformer_model.pth', emb_model_path='nn_embedding_model.pth', model_path='../../../saved_model_gpt_hidden_dim_64_8_masked_node_False_masked_edge_True_vocab_size_5000', epoch=4)
+2024-06-05 00:18:02.785 | INFO     | __main__:<module>:182 - Setting seeds for reproducibility Seed 42
+2024-06-05 00:18:02.840 | INFO     | __main__:<module>:192 - Device: cuda:0
+2024-06-05 00:18:02.842 | INFO     | pretrain.utils.data_preprocessor:__init__:90 - Loading data from cache ./raw_cached_data.pt
+2024-06-05 00:18:15.953 | INFO     | pretrain.utils.training_pipeline:load:297 - TrxGNNGPT has 675372485 parameters
+2024-06-05 00:18:15.954 | INFO     | pretrain.utils.training_pipeline:load:298 - gnn_module has 671170565 parameters
+2024-06-05 00:18:15.955 | INFO     | pretrain.utils.training_pipeline:load:299 - transformer_module has 3881920 parameters
+2024-06-05 00:18:22.225 | INFO     | pretrain.utils.training_pipeline:load:301 - model is on cuda:0
+2024-06-05 00:18:22.225 | INFO     | pretrain.utils.training_pipeline:load:302 - gnn_module is on cuda:0
+2024-06-05 00:18:22.225 | INFO     | pretrain.utils.training_pipeline:load:303 - transformer_module is on cuda:0
+2024-06-05 00:18:24.910 | INFO     | pretrain.utils.training_pipeline:train_model_classification:213 - Use AdamW optimizer
+2024-06-05 00:18:24.911 | INFO     | pretrain.utils.training_pipeline:train_model_classification:237 - epoch: 0

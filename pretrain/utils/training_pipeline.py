@@ -7,11 +7,13 @@ from accelerate import Accelerator
 import wandb
 import os
 import apex
-from utils.argument import TrainingArguments, ModelArguments, TokenizerArguments
+from .argument import TrainingArguments, ModelArguments, TokenizerArguments
 from transformers import get_linear_schedule_with_warmup
-from models.TrxGNNGPT import TrxGNNGPT
+from ..models.TrxGNNGPT import TrxGNNGPT
 from loguru import logger
 import random
+import pdb
+import numpy as np
 # import deepspeed
 
 def count_parameters(model):
@@ -72,7 +74,7 @@ class TrainingPipeline:
         return concatenated_tensors
         
 
-    def train(self, dataset, gnn_module, transformer_module) -> TrxGNNGPT:
+    def train(self, dataset, gnn_module, transformer_module) -> TrxGNNGPT:#预训练的训练函数
         # data = dataset.dataset
         # random.shuffle(data)
         # accelerator = Accelerator()
@@ -118,7 +120,7 @@ class TrainingPipeline:
         if self.fp16:
             try:
                 from apex.apex import amp
-                model, optimizer = amp.initialize(model, optimizer, opt_level="O1")
+                model, optimizer = amp.initialize(model, optimizer, opt_level="O0")
             except ImportError:
                 raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
         
@@ -185,6 +187,121 @@ class TrainingPipeline:
             logger.info(f"Epoch {epoch+1}/{self.epochs}, total Loss: {total_loss}")
             logger.info(f"Saving model at the end of epoch {epoch}, "+"{}/{}".format(self.model_args.output_dir, epoch))
             self.save_end_epoch(model, epoch, self.model_args)
+        return model
+    
+    def train_model_classification(self, train_dataset,test_dataset,valid_dataset, model,num_class) -> TrxGNNGPT:#下游任务分类的训练函数
+        train_data =  train_dataset
+        model.to(self.device)
+        optimizer = torch.optim.AdamW(model.parameters(), lr=self.lr)
+        logger.info("Use AdamW optimizer")
+        scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=10000,
+                                                num_training_steps=100)
+        checkpoint_last = os.path.join(self.output_dir, 'checkpoint-last')
+        scheduler_last = os.path.join(checkpoint_last, 'scheduler.pt')
+        optimizer_last = os.path.join(checkpoint_last, 'optimizer.pt')
+        if os.path.exists(scheduler_last):
+            scheduler.load_state_dict(torch.load(scheduler_last, map_location="cpu"))
+        if os.path.exists(optimizer_last):
+            optimizer.load_state_dict(torch.load(optimizer_last, map_location="cpu")) 
+        if self.fp16:
+            try:
+                from apex.apex import amp
+                model, optimizer = amp.initialize(model, optimizer, opt_level="O1")
+            except ImportError:
+                raise ImportError("Please install apex from https://www.github.com/nvidia/apex to use fp16 training.")
+        tr_loss, logging_loss,avg_loss,tr_nb = 0.0, 0.0,0.0,0
+        # model,optimizer,data  = accelerator.prepare(model,optimizer,data)
+        criterion = torch.nn.CrossEntropyLoss(reduce=False)
+        step = 0 
+        global_step = self.start_step
+        max_eval_acc = 0
+        max_test_acc = 0
+        for epoch in range(self.epochs):
+            model.train()
+            logger.info(f"epoch: {epoch}")
+            total_loss = 0
+            # device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+            # Initialize tqdm progress bar with an initial description
+            pbar = tqdm.tqdm(train_data, desc="Initial")
+            for i,batch in enumerate(pbar): #(tqdm.tqdm(data, desc=f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")):
+                pbar.set_description(f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")
+                step += 1
+                labels,predictions = model(batch)
+                loss_1 = criterion(predictions.to(torch.float32).to(self.device), labels.to(torch.float32).to(self.device))
+                a_loss = loss_1.mean()
+                if self.gradient_accumulation_steps > 1:
+                    loss = a_loss / self.gradient_accumulation_steps
+                if self.fp16:
+                    with amp.scale_loss(loss, optimizer) as scaled_loss:
+                        scaled_loss.backward()
+                        torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), self.max_grad_norm)
+                else:
+                    loss.backward()
+                    torch.nn.utils.clip_grad_norm_(model.parameters(), self.max_grad_norm)
+                tr_loss += loss.item()
+                if (step + 1) % self.gradient_accumulation_steps == 0:
+                    optimizer.step()
+                    optimizer.zero_grad()
+                    scheduler.step()  
+                    global_step += 1
+                    output_flag=True
+                    avg_loss=round((tr_loss - logging_loss) /(global_step- tr_nb),6)
+                    if global_step % 100 == 0:
+                        logger.info( f" steps: {global_step} loss: {round(avg_loss,6)}" )
+                    if  self.logging_steps > 0 and global_step % self.logging_steps == 0:
+                        logging_loss = tr_loss
+                        tr_nb = global_step
+                    #if self.save_steps > 0 and global_step % self.save_steps == 0:
+                total_loss += a_loss                
+            logger.info(f"Epoch {epoch+1}/{self.epochs}, total Loss: {total_loss}")
+            eval_acc,eval_macro_F1 = self.eval_model_classification(valid_dataset, model, epoch,num_class)
+            if eval_acc > max_eval_acc:
+                max_eval_acc = eval_acc
+                print(f"\033[32mmax eval acc is {max_eval_acc} and macro F1 is {eval_macro_F1} in epoch {epoch}\033[0m")
+                test_acc,test_macro_F1  = self.eval_model_classification(test_dataset, model, epoch,num_class)
+                if test_acc > max_test_acc:
+                    max_test_acc = test_acc
+                    print(f"\033[31mmax test acc is {max_test_acc} and macro F1 is {test_macro_F1} in epoch {epoch}\033[0m")
+        return model
+    
+    def eval_model_classification(self,valid_data, model, epoch,num_class):
+        model.eval()
+        acc = 0
+        macro_F1 = 0
+        with torch.no_grad():
+            labels = torch.empty((len(valid_data),num_class),dtype=torch.int).to(self.device)
+            predictions_threhold = torch.empty((len(valid_data),num_class),dtype=torch.float32).to(self.device)
+            predictions = torch.empty((len(valid_data),num_class),dtype=torch.int).to(self.device)
+            pbar = tqdm.tqdm(valid_data, desc="Initial")
+            for i,batch in enumerate(pbar): #(tqdm.tqdm(data, desc=f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")):
+                pbar.set_description(f"Processing items Available memory: {torch.cuda.get_device_properties(self.device).total_memory/ (1024**3) - torch.cuda.memory_allocated(self.device)/ (1024**3):.4f} G")
+                label,prediction = model(batch)
+                labels[i] = label.to(torch.int).to(self.device)
+                predictions_threhold[i] = prediction.to(torch.float)
+            predictions = torch.zeros_like(predictions_threhold).scatter_(1, torch.argmax(predictions_threhold,dim=1).unsqueeze(1), 1)
+            confusion_matrix = (labels.to(torch.float).T @ predictions).T
+            acc = torch.trace(confusion_matrix) / len(valid_data)
+            macro_precision = sum([confusion_matrix[i][i]/confusion_matrix[i].sum() for i in range(num_class)]) / num_class
+            macro_recall = sum([confusion_matrix[i][i]/confusion_matrix[i].T.sum() for i in range(num_class)]) / num_class
+            macro_F1 = macro_precision * macro_recall * 2 / (macro_recall + macro_precision)
+            print(f"\033[33macc is {acc}, macro-F1 is {macro_F1}\033[0m")    
+        logger.info(f"Saving model at the end of epoch {epoch}, "+"{}/{}".format(self.model_args.output_dir, epoch))  
+        return acc,macro_F1
+
+    
+    def load(self, gnn_module, transformer_module) -> TrxGNNGPT:
+        # data = dataset.dataset
+        # random.shuffle(data)
+        # accelerator = Accelerator()
+        model = self.initialize_model(gnn_module, transformer_module, self.gnn_hidden_dim, \
+            self.mlm_probability, self.device, self.is_tighted_lm_head, self.masked_node, self.masked_edge)
+        logger.info(f"TrxGNNGPT has {count_parameters(model)} parameters")
+        logger.info(f"gnn_module has {count_parameters(gnn_module)} parameters")
+        logger.info(f"transformer_module has {count_parameters(transformer_module)} parameters")
+        model.to(self.device)
+        logger.info(f"model is on {model.device}")
+        logger.info(f"gnn_module is on {next(gnn_module.parameters()).device}")
+        logger.info(f"transformer_module is on {next(transformer_module.parameters()).device}")
         return model
     
     def save_end_epoch(self, model:TrxGNNGPT, epoch:int, model_args: ModelArguments):

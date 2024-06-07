@@ -4,8 +4,8 @@ try:
     import os
     import pickle
     # from torch_geometric.data import Data
-    from utils.EsperantoDataset import EsperantoDataset
-    from utils.argument import TokenizerArguments
+    from .EsperantoDataset import EsperantoDataset
+    from .argument import TokenizerArguments
     import random
 except ImportError as e:
     print(f"ImportError: {e}")
@@ -118,6 +118,7 @@ class DataPreprocessor:
             # if data['y']: 
             #     self.dataset[i]['Node labels'] = torch.tensor(data['y'], dtype=torch.float).repeat(10,1)
         return GraphData(self.dataset, self.batch)
+    
 
     def preprocess(self, graph_data: GraphData) -> Optional[ProcessedGraphData]:
         """
