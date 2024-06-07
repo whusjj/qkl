@@ -66,9 +66,13 @@ test
 
 
 - downstream_tasks
-    - task1
+    - none-phishing-scam-classfication
+        - run.sh #启动脚本，对不同的预训练模型应该要有不同的脚本
+        - data #数据的文件夹
+        - processed #预处理以后存数据的文件夹
+        - tokenizer #小分词器
+        - tokenizer_larger #大分词器
+        - init.py
         - main.py
-        - model.py
-        - ...
-    - task2
+    - function_name_prediction
     - task3
