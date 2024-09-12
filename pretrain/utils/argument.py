@@ -8,7 +8,7 @@ class TrainingArguments:
     do_eval: bool = False
     seed: int = 42
     epochs: int  = 5
-    batch_size: int   =  32
+    batch_size: int   =  1
     fp16: bool   = False
     device: str   = 'cpu' #torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     start_step: int   = 100
@@ -26,6 +26,7 @@ class TrainingArguments:
     masked_edge: bool  = False
     debug: bool = False
     hidden_dropout_prob :float = 0.5
+    num_class : int = 3
     
 @dataclass
 class ModelArguments:
@@ -48,6 +49,10 @@ class DataArguments:
 
 @dataclass
 class TokenizerArguments:    
+    function_tokenizer_dir: str = "tokenizer_function"
+    function_token_vocab: str   = "esperberto-vocab.json"
+    function_token_merge: str   = "esperberto-merges.txt"
+    function_vocab_size = None
     tokenizer_dir: str = "tokenizer"
     token_vocab: str   = "esperberto-vocab.json"
     token_merge: str   = "esperberto-merges.txt"

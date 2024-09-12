@@ -7,6 +7,9 @@ try:
     from .EsperantoDataset import EsperantoDataset
     from .argument import TokenizerArguments
     import random
+    import pdb
+    from transformers import PreTrainedTokenizerFast
+    import json
 except ImportError as e:
     print(f"ImportError: {e}")
     raise e
@@ -55,7 +58,7 @@ class DataPreprocessor:
     """
     The DataPreprocessor class is responsible for loading and preprocessing graph data.
     """
-    def __init__(self, raw_data_folder: str, sequence = 128,batch = 32, tokenizaer_args: TokenizerArguments = None, debug:bool = False):
+    def __init__(self, raw_data_folder: str, sequence = 128,batch = 32, tokenizaer_args: TokenizerArguments = None, debug:bool = False,vocab_file = "/root/autodl-tmp/qkl_master/downstream_tasks/function_name_prediction/tokenizer_function"):#记得参数化
         # try:
         # dataset = np.load(filepath, allow_pickle=True)
         self.batch = batch
@@ -90,9 +93,10 @@ class DataPreprocessor:
             logger.info(f"Loading data from cache {cache_file}")
             dataset = torch.load(f"{cache_file}")
 
-
         self.dataset = dataset
         self.esperanto_dataset = EsperantoDataset(max_length = sequence, token_vocab_path = tokenizaer_args.token_vocab, token_merge_path = tokenizaer_args.token_merge)
+        # self.function_dataset = EsperantoDataset(max_length = sequence, token_vocab_path = tokenizaer_args.function_token_vocab, token_merge_path = tokenizaer_args.function_token_merge)
+        # 这个地方参数化
         
        
 
@@ -107,7 +111,9 @@ class DataPreprocessor:
         - GraphData: An instance of the GraphData class containing the loaded data, or None if an error occurs.
         """
         for i, data in enumerate(tqdm(self.dataset,  desc="Processing items")):
-            tensor_list = self.esperanto_dataset.tokenizer_node(data["x"])
+            self.dataset[i]["edge_attr_label"] = self.dataset[i]["edge_attr"]
+            # data_x = [[{k: v for k, v in d.items() if k != 'code'} for d in datalist] for datalist in data['x']] 参数化
+            tensor_list = self.esperanto_dataset.tokenizer_node(data['x'])
             stacked_tensor = torch.stack(tensor_list)
             self.dataset[i]["x"] = stacked_tensor
             self.dataset[i]['edge_index'] = data['edge_index'].clone().detach().t() #torch.tensor(data['edge_index'], dtype=torch.long).t()#可以保留

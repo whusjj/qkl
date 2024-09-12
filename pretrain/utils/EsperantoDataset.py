@@ -4,7 +4,7 @@ from tokenizers import ByteLevelBPETokenizer
 from tokenizers.processors import BertProcessing
 import torch
 import json
-
+import pdb
 # def get_vocab_size():
 #     # 读取 esperberto-vocab.json 文件
 #     with open('esperberto-vocab.json', 'r', encoding='utf-8') as f:
@@ -26,6 +26,7 @@ class EsperantoDataset(Dataset):
             ("</s>", self.tokenizer.token_to_id("</s>")),
             ("<s>", self.tokenizer.token_to_id("<s>")),
         )
+        # pdb.set_trace()
         self.max_length = max_length
         self.tokenizer.enable_truncation(max_length=max_length)
         self.token_vocab_path = token_vocab_path

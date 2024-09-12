@@ -49,6 +49,8 @@ class None_Phishing_Scam_Classfication(nn.Module):
         logits=torch.sum(outputs,axis=0)
         prob=F.softmax(logits)
         return torch.tensor(graph_data.y),prob
+    
+
       
         
  

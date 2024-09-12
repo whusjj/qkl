@@ -55,7 +55,6 @@ class Main:
         
         self.pickle_path = self.data_args.pickle_path #"/root/autodl-tmp/pre_train/generate/data.pickle"
         self.raw_data_folder = self.data_args.raw_data_folder
-        
         self.data_preprocessor = DataPreprocessor(  self.raw_data_folder, \
                                                     sequence = self.sequence,\
                                                     batch = self.batch_size,\
@@ -102,6 +101,7 @@ class Main:
             self.pickle_path = f"{self.data_args.pickle_path}_debug"
         
         if not os.path.exists(self.pickle_path):
+            
             graph_data = self.data_preprocessor.process_data()
             with open(self.pickle_path, 'wb') as handle:
                 pickle.dump(graph_data, handle, protocol=pickle.HIGHEST_PROTOCOL)
@@ -139,8 +139,8 @@ class Main:
                 valid_data = pickle.load(handle)
         model = self.training_pipeline.load(self.gnn_module, self.transformer_module)
         model.load_state_dict(torch.load(self.model_args.model_path))
-        Model = None_Phishing_Scam_Classfication(model,self.training_args,3)#分类数量，最后要写到参数中
-        model = self.training_pipeline.train_model_classification(train_data,test_data,valid_data,Model,3)
+        Model = None_Phishing_Scam_Classfication(model,self.training_args,training_args.num_class)#分类数量，最后要写到参数中
+        model = self.training_pipeline.train_model_classification(train_data,test_data,valid_data,Model,training_args.num_class)
         return model
 
 
@@ -202,7 +202,6 @@ if __name__ == "__main__":
         
     main = Main(training_args, data_args, tokenizaer_args, model_args)
     model = main.load_model()
-    pdb.set_trace()
     # # 这边还要model save
     # torch.save(model.embedding_layer.state_dict(), model_args.emb_model_path)
     # torch.save(model.transformer_module.transformer.state_dict(), model_args.transformer_model_path )

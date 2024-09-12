@@ -1,7 +1,7 @@
 ## transformer_module.py
 import torch
 from torch import nn
-from transformers import GPT2Model, GPT2Config
+from transformers import GPT2Model, GPT2Config,BertConfig,BertModel
 #from transformers import RobertaConfig, RobertaModel
 import torch_geometric.nn as gnn
 import pdb
@@ -19,12 +19,12 @@ class TransformerModule(nn.Module):
         # Initialize GPT-2 configuration with the specified output dimension
         # print("output_dim:",output_dim)
         #if using_gnn_hidden_dim:
-        self.config = GPT2Config(n_embd = gpt_hidden_dim, n_head=n_head) # 使用默认设置，舍弃原来的初始化方式 n_head = 8,n_embd=output_dim,hidden_size = input_dim
+        self.config = BertConfig(hidden_size = gpt_hidden_dim)
+        self.transformer = BertModel(self.config)
         self.gpt_hidden_dim = gpt_hidden_dim
-        # else:
-        #     self.config =  GPT2Config()
-        #     self.input_dim = self.config.n_embd 
-        self.transformer = GPT2Model(self.config)
+        #self.config = GPT2Config(n_embd = gpt_hidden_dim, n_head=n_head) # 使用默认设置，舍弃原来的初始化方式 n_head = 8,n_embd=output_dim,hidden_size = input_dim
+        #self.transformer = GPT2Model(self.config)
+
  
     
 
