@@ -5,7 +5,7 @@ cd ../
 [ -d data/preprocessed ] || mkdir -p data/preprocessed
 [ -d data/split ] || mkdir -p data/split
 
-gpt_hidden_dim=144
+gpt_hidden_dim=384
 gpt_num_head=12
 tokenizer_dir=$1
 token_vocab=$2
