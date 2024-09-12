@@ -1,4 +1,4 @@
-# Pretrain TrxGNNGPT Model
+# Pretrain TrxGNNBert Model
 
 ## Data
 ```
@@ -13,7 +13,7 @@ Options
 
 `tokenizer_larger` is a large tokenzier with more than 1w tokens
 
-## Tre-Training 方式
+## Pre-Training 方式
    - 分别使用5000和1w大小的tokenizer
    - 只mask edge
    - 只mask node
@@ -55,7 +55,8 @@ python main.py \
     --token_vocab 'esperberto-vocab.json' \
     --token_merge 'esperberto-merges.txt' 2>&1 | tee  $saved_model/log.txt
 ```
-
+预训练 pretrain/jobs_masked_node_edge/run_bert_dim_384_6w_masked_node_edge.sh
+测试 downstream_tasks/none-phishing-scam-classfication/run_bert_dim_128_384_masked_node_masked_edge.sh
 ## Downstream tasks
 划分3个数据集， train, valid, test
 
